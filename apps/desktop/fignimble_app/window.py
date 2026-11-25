@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (QApplication, QDockWidget, QFileDialog, QInputDia
 
 from . import dialogs, locate, terminal, version
 from .canvas import TOOLS, Canvas
-from .codepane import CodePane
+from .codepane import CodePane, is_text
 from .engine import EngineClient
 from .inspector import LABEL_FORMATS, Inspector
 
@@ -422,10 +422,9 @@ class MainWindow(QMainWindow):
         self.inspector.update_view()
         self.update_actions()
         if len(self.canvas.selection) == 1 and self.docks["code"].isVisible():
-            e = self.canvas.by_oid.get(self.canvas.selection[0]) or {}
-            where = e.get("code") or e.get("site")
-            if where and where.get("file") and not self.code.dirty:
-                self.code.open(where["file"], where.get("line"))
+            file, line = self.code_of(self.canvas.by_oid.get(self.canvas.selection[0]) or {}, selecting=True)
+            if file and not self.code.dirty:
+                self.code.open(file, line)
 
     # --- edits ---
 
@@ -1010,7 +1009,7 @@ class MainWindow(QMainWindow):
             return
         e = sel[0]
         m = QMenu(self)
-        if e.get("code") or e.get("site"):
+        if self.code_of(e)[0]:
             m.addAction("Edit Code", self.edit_code)
         if e.get("kind") in ("image", "inset"):
             m.addAction("Replace…", self.replace_picture)
@@ -1029,12 +1028,25 @@ class MainWindow(QMainWindow):
         m.addAction("Delete", self.delete_selected)
         m.exec(at)
 
+    def code_of(self, e: dict, selecting: bool = False):
+        """Which code an element shows, as in the macOS app: a panel's own code (at its function), the source of a
+        text or a nested figure, else the line of the figure that places it. An image's `code` is the picture
+        itself, so it shows the line that places it."""
+        if e.get("kind") == "label":
+            e = self.canvas.by_oid.get(e.get("panel") or "") or e
+        k, code, site = e.get("kind"), e.get("code") or {}, e.get("site") or {}
+        if selecting:
+            own = (k == "panel" or (k == "inset" and e.get("inner") == "panel")) and str(code.get("file", "")).endswith(".py")
+        else:
+            own = k in ("panel", "inset", "figure") or (k == "text" and (e.get("props") or {}).get("source"))
+        if own and code.get("file") and is_text(code["file"]):
+            return code["file"], code.get("line")
+        return site.get("file"), site.get("line")
+
     def edit_code(self):
         if len(self.canvas.selection) == 1:
-            e = self.canvas.by_oid.get(self.canvas.selection[0]) or {}
-            where = e.get("code") or e.get("site")
-            if where:
-                self.open_code(where.get("file"), where.get("line"))
+            file, line = self.code_of(self.canvas.by_oid.get(self.canvas.selection[0]) or {})
+            self.open_code(file, line)
 
     def open_code(self, file, line=None):
         if file:

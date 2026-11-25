@@ -687,10 +687,8 @@ class Canvas(QWidget):
         elif kind == "label":
             b = box_of(el)
             self.open_editor(("label", el["oid"]), b.topLeft(), str(el.get("text") or ""), 9, width=max(b.width(), 8))
-        elif kind == "panel" and el.get("code"):
-            self.main.open_code(el["code"].get("file"), el["code"].get("line"))
-        elif el.get("site"):
-            self.main.open_code(el["site"].get("file"), el["site"].get("line"))
+        else:
+            self.main.open_code(*self.main.code_of(el))
 
     def _hover_cursor(self, v: QPointF, mm: QPointF):
         if self.tool != "select":

@@ -22,7 +22,10 @@ fi
 "$ENV/bin/python" -m pip install -q --upgrade pip
 "$ENV/bin/python" -m pip install -q -r engine/requirements.txt
 "$ENV/bin/python" -m pip install -q "PySide6-Essentials>=6.5"
-"$ENV/bin/python" -m pip install -q -e "$ROOT"          # `import fignimble` there, and the editor (apps/desktop)
+# `import fignimble` there, and the editor (apps/desktop); setuptools' build warnings only if it fails
+log="$(mktemp)"
+if ! "$ENV/bin/python" -m pip install -q -e "$ROOT" >"$log" 2>&1; then cat "$log" >&2; rm -f "$log"; exit 1; fi
+rm -f "$log"
 
 mkdir -p "$BIN" "$DATA/applications" "$DATA/icons/hicolor/scalable/apps"
 ln -sf "$ROOT/bin/fignimble" "$BIN/fignimble"

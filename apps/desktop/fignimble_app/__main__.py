@@ -19,6 +19,9 @@ def main(argv: list[str] | None = None) -> int:
     from . import ROOT, version
     from .window import MainWindow, apply_appearance
 
+    # Qt 6.8+ on Linux asks the desktop portal for an app ID and prints a harmless warning when the session has
+    # one already (launched from a terminal); keep it out of the terminal unless logging is set up already
+    os.environ.setdefault("QT_LOGGING_RULES", "qt.qpa.services=false")
     app = QApplication(sys.argv[:1] + argv)
     app.setApplicationName("Fignimble")
     app.setOrganizationName("pachterlab")

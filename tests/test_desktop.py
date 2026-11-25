@@ -137,6 +137,23 @@ def test_code_pane_applies(app, window):
     assert not w.code.dirty
 
 
+def test_code_of_each_element(app, window):
+    """Selecting (or editing the code of) a picture shows the line that places it, not the picture's bytes."""
+    w = window
+    w.docks["code"].show()
+    app.processEvents()
+    for e in list(w.canvas.elements):
+        w.canvas.set_selection([e["oid"]])
+        w.selection_changed()
+        w.edit_code()
+        assert w.code.path and Path(w.code.path).suffix in (".py", ".md", ".svg", ".txt"), (e.get("kind"), w.code.path)
+        if e.get("kind") == "image":
+            assert w.code.path == w.figure["file"]
+    png = next(Path(w.project).rglob("*.png"))
+    w.code.open(str(png))                              # asked directly: says so, and keeps what it showed
+    assert w.code.path != str(png)
+
+
 @pytest.mark.skipif(os.name == "nt", reason="the ssh stand-in is a bash script; SSH projects need macOS or Linux")
 def test_project_on_a_server(app, tmp_path, monkeypatch):
     """File ▸ Open Project on SSH Server: the tunnel starts the engine "there" (a folder reached through a stand-in for

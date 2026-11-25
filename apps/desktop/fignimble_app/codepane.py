@@ -120,8 +120,9 @@ class CodePane(QWidget):
         if path != self.path or not self.dirty:
             try:
                 text = Path(path).read_text(encoding="utf-8")
-            except OSError as exc:
-                self.main.toast(str(exc), error=True)
+            except (OSError, UnicodeDecodeError) as exc:
+                msg = f"{os.path.basename(path)} isn't a text file" if isinstance(exc, UnicodeDecodeError) else str(exc)
+                self.main.toast(msg, error=True)
                 return
             self.path = path
             self.loaded = text
@@ -171,6 +172,21 @@ class CodePane(QWidget):
             p = self.path
             self.path = None
             self.open(p)
+
+
+def is_text(p) -> bool:
+    """A file the code pane can show: UTF-8 text (not a picture or a PDF)."""
+    try:
+        with open(p, "rb") as f:
+            head = f.read(8192)
+        if b"\0" in head:
+            return False
+        head.decode("utf-8")
+        return True
+    except UnicodeDecodeError as exc:              # cut in the middle of a character at the end
+        return exc.start >= len(head) - 3
+    except OSError:
+        return False
 
 
 def _mtime(p):
