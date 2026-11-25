@@ -15,6 +15,8 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+# the "ssh" here is a bash script; on Windows tests/test_portability.py checks the path mapping on its own
+pytestmark = pytest.mark.skipif(os.name == "nt", reason="the ssh stand-in is a bash script")
 PNG = bytes.fromhex("89504e470d0a1a0a0000000d4948445200000001000000010806000000"
                     "1f15c4890000000d49444154789c63f8cfc0f01f0005000201a5f1d6a70000000049454e44ae426082")
 

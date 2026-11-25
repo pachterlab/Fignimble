@@ -22,7 +22,7 @@ import threading
 import time
 from pathlib import Path
 
-from . import remote, srcedit, tables, templates
+from . import remote, srcedit, system, tables, templates
 from .render import SKIP_DIRS, is_figure_source
 from .srcedit import REMOVE, EditError, Raw, Source
 
@@ -54,9 +54,11 @@ class WorkerProc:
 
     def _start(self):
         env = dict(os.environ, PYTHONPATH=ENGINE_ROOT + os.pathsep + os.environ.get("PYTHONPATH", ""),
-                   PYTHONUNBUFFERED="1", MPLBACKEND="Agg", PYTHONDONTWRITEBYTECODE="1")
+                   PYTHONUNBUFFERED="1", MPLBACKEND="Agg", PYTHONDONTWRITEBYTECODE="1",
+                   **({"PYTHONUTF8": "1"} if system.WINDOWS else {}))     # files in UTF-8 as elsewhere
         self.proc = subprocess.Popen([self.python, "-u", "-m", "fignimble.worker"], stdin=subprocess.PIPE,
-                                     stdout=subprocess.PIPE, stderr=sys.stderr, env=env, text=True, bufsize=1)
+                                     stdout=subprocess.PIPE, stderr=sys.stderr, env=env, text=True, encoding="utf-8",
+                                     bufsize=1)
         self.lines = queue.Queue()
         q, out = self.lines, self.proc.stdout
 
@@ -88,7 +90,7 @@ class WorkerProc:
                                        "(a panel's code may loop forever)") from None
                 if ln is None:
                     self.proc = None
-                    raise RuntimeError("the render worker crashed (see ~/Library/Logs/fignimble.log)")
+                    raise RuntimeError(f"the render worker crashed (see {system.shown(system.log_path())})")
                 msg = json.loads(ln)
                 if msg.get("id") != req["id"]:
                     continue
@@ -108,6 +110,15 @@ class WorkerProc:
                 self.proc.wait(timeout=2)
             except Exception:                            # noqa: BLE001
                 self.proc.kill()
+
+
+def _newline_of(path: str) -> str:
+    """The line ending a text file uses: "\\r\\n" when it has any (a Windows checkout), else "\\n"."""
+    try:
+        with open(path, "rb") as f:
+            return "\r\n" if b"\r\n" in f.read() else "\n"
+    except OSError:
+        return "\n"
 
 
 class UndoConflict(Exception):
@@ -343,8 +354,9 @@ class Session:
     def _write(self, texts: dict[str, tuple[str, str]], label: str):
         written = {}
         for path, (before, after) in texts.items():
-            Path(path).write_text(after, encoding="utf-8")
-            written[path] = (before.encode(), after.encode())
+            nl = _newline_of(path)                      # a file keeps its line endings (CRLF in a Windows checkout)
+            Path(path).write_text(after, encoding="utf-8", newline=nl)
+            written[path] = (before.replace("\n", nl).encode(), after.replace("\n", nl).encode())
         if written:
             self.history.append({"label": label, "files": written})
             self.redo.clear()
@@ -358,6 +370,15 @@ class Session:
                 current = Path(path).read_bytes()
             except FileNotFoundError:
                 current = None
+            # compared line by line whatever the line endings (an editor may have saved the file with CRLF since),
+            # and written back with the file's own
+            crlf = current is not None and b"\r\n" in current
+            target, expected, current = (None if b is None else b.replace(b"\r\n", b"\n")
+                                         for b in (target, expected, current))
+            if crlf and target is not None:
+                target = target.replace(b"\n", b"\r\n")
+                current = current.replace(b"\n", b"\r\n")
+                expected = expected.replace(b"\n", b"\r\n") if expected is not None else None
             if current in (expected, target):
                 plan[path] = target
                 continue
@@ -1718,7 +1739,7 @@ class Session:
             text = templates.figure_py(float(a.get("width", 183)), float(a.get("height", 120)))
         path = self.project / f"{name}.py"
         with self.edit_lock:
-            path.write_text(text, encoding="utf-8")
+            path.write_text(text, encoding="utf-8", newline="\n")
             self.history.append({"label": "New Figure", "files": {str(path): (None, text.encode())}})
             self.redo.clear()
             self._sig = self.fingerprint()
@@ -1912,7 +1933,7 @@ class Session:
         path = self.project / f"{name}.py"
         with self.edit_lock:
             csv_path.write_text(tables.write_delimited(rows), encoding="utf-8")
-            path.write_text(text, encoding="utf-8")
+            path.write_text(text, encoding="utf-8", newline="\n")
             self.history.append({"label": "New Table", "files": {str(path): (None, text.encode()),
                                                                  str(csv_path): (None, csv_path.read_bytes())}})
             self.redo.clear()

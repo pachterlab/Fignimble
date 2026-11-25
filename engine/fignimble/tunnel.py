@@ -87,10 +87,20 @@ def ssh_args(host: str, script: str) -> list[str]:
                                     "-o", "Compression=yes", host, "--", "sh -c " + shlex.quote(script)])
 
 
+def _sep(path: str) -> str:
+    """The separator of a path: the server's are always "/", a Windows mirror's "\\"."""
+    return "\\" if os.sep == "\\" and ("\\" in path or path[1:2] == ":") else "/"
+
+
 def _map(v, a: str, b: str):
-    """`v` with paths under folder `a` moved under folder `b` (in strings, lists, dict keys and values)."""
+    """`v` with paths under folder `a` moved under folder `b` (in strings, lists, dict keys and values), their
+    separators made `b`'s (a Windows mirror and a POSIX server)."""
     if isinstance(v, str):
-        return b + v[len(a):] if v == a or v.startswith(a + "/") else v
+        for s in dict.fromkeys(("/", os.sep)):
+            if v == a or v.startswith(a + s):
+                rest = v[len(a):]
+                return b + (rest.replace(s, _sep(b)) if s != _sep(b) else rest)
+        return v
     if isinstance(v, dict):
         return {_map(k, a, b): _map(x, a, b) for k, x in v.items()}
     if isinstance(v, list):
@@ -408,7 +418,8 @@ class Tunnel:
     # --- requests from the app ---
 
     def local_path(self, p) -> bool:
-        return isinstance(p, str) and os.path.isabs(p) and not (p == self.L or p.startswith(self.L + "/"))
+        return isinstance(p, str) and os.path.isabs(p) and not (p == self.L or p.startswith(self.L + os.sep)
+                                                                or p.startswith(self.L + "/"))
 
     def upload(self, path: str) -> str:
         data = base64.b64encode(Path(path).read_bytes()).decode()

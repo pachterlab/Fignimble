@@ -1,6 +1,7 @@
 # Engine protocol
 
-The app starts `python -m fignimble.rpc` (with `PYTHONPATH` at `engine/`) and talks to it in JSON lines, as Manimble
+The app (the macOS app, or the Windows and Linux editor in `apps/desktop`) starts `python -m fignimble.rpc` (with
+`PYTHONPATH` at `engine/`) and talks to it in JSON lines, as Manimble
 does: a request `{"id": 7, "cmd": "figure", "name": "fig1"}`, a response `{"id": 7, "result": {...}}` or
 `{"id": 7, "error": "..."}`, and events with no id. The engine renders in a separate worker process
 (`fignimble.worker`), restarted if a panel's code crashes it or runs over 180 s.

@@ -1,0 +1,75 @@
+# Runs the tests on macOS, Linux and Windows, and the Linux and Windows installers, on every push and pull request:
+# what keeps Fignimble working on all three as the engine changes. The editor's tests (tests/test_desktop.py) run
+# without a screen (QT_QPA_PLATFORM=offscreen).
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      QT_QPA_PLATFORM: offscreen
+      PYTHONPATH: engine
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      # Liberation Sans measures as Arial does; Qt needs these libraries even offscreen
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y fonts-liberation ghostscript libegl1 libxkbcommon0 libxcb-cursor0 libgl1
+      - run: python -m pip install -r engine/requirements.txt pytest "PySide6-Essentials>=6.5"
+      - run: python -m pytest tests -q
+
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Install (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update && sudo apt-get install -y libegl1 libxkbcommon0 libxcb-cursor0 libgl1
+          ./install_fignimble.sh
+          ~/.local/bin/fignimble new "$RUNNER_TEMP/p"
+          ~/.local/bin/fignimble info "$RUNNER_TEMP/p/fig1.py"
+          ~/.local/bin/fignimble snapshot "$RUNNER_TEMP/p/fig1.py"
+          QT_QPA_PLATFORM=offscreen ~/.local/share/fignimble/python/bin/python -c "import fignimble_app.window"
+          test -f ~/.local/share/applications/fignimble.desktop
+      - name: Install (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          powershell -ExecutionPolicy Bypass -File install_fignimble.ps1
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          $bin = Join-Path $env:LOCALAPPDATA "Fignimble\bin"
+          & "$bin\fignimble.cmd" new "$env:RUNNER_TEMP\p"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          & "$bin\fignimble.cmd" snapshot "$env:RUNNER_TEMP\p\fig1.py"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          $env:QT_QPA_PLATFORM = "offscreen"
+          & (Join-Path $env:LOCALAPPDATA "Fignimble\python\Scripts\python.exe") -c "import fignimble_app.window"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          if (-not (Test-Path (Join-Path ([Environment]::GetFolderPath('Programs')) "Fignimble.lnk"))) { exit 1 }

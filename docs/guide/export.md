@@ -37,7 +37,8 @@ For PDF and EPS the resolution is that of what panels draw as pixels, such as he
 measures the file: its dpi, or each picture inside a PDF or EPS against what the journal asks for photographs.
 
 For print: **CMYK** (PDF, EPS, TIFF, JPEG) and **text as outlines** (PDF, EPS, SVG). These and EPS use
-[Ghostscript](https://www.ghostscript.com) (`brew install ghostscript`). A PDF can also have a **bleed** (the page
+[Ghostscript](https://www.ghostscript.com) (`brew install ghostscript` on a Mac; on Windows its installer, or
+`winget install ArtifexSoftware.GhostScript`; on Linux `sudo apt install ghostscript`). A PDF can also have a **bleed** (the page
 extended past the figure's edges, so trimming leaves no white line) and **crop marks**, which print shops ask for. The
 PDF's TrimBox is then the figure. A [poster](posters.md) is held to poster resolutions instead of a journal's: 150 dpi for
 pictures, and at most 300 dpi for TIFF, PNG and JPEG.

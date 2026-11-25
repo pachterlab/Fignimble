@@ -2,6 +2,11 @@
 
 This walk-through makes a two-panel figure, letters it, styles it for a journal and exports it.
 
+!!! note "Windows and Linux"
+    Keys are shown as on a Mac. On Windows and Linux use <kbd>Ctrl</kbd> for <kbd>⌘</kbd> and <kbd>Alt</kbd> for
+    <kbd>⌥</kbd>: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> makes a new project. See
+    [Windows and Linux](windows-linux.md).
+
 ## 1. Make a project
 
 Choose **File ▸ New Project…** (<kbd>⇧</kbd><kbd>⌘</kbd><kbd>N</kbd>), pick a folder name and the journal to style
@@ -61,5 +66,5 @@ and Fignimble writes a file at the resolution the journal asks for. **Edit ▸ C
 ## 6. Bring in an agent
 
 Choose **View ▸ Terminal** (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>T</kbd>) and click **Run claude** (or type `codex` or
-`gemini`). Ask for a panel, "add a heatmap of `data/correlations.csv` as panel c", and watch it appear. See
+`gemini`); on Windows and Linux, **Terminal ▸ Run Claude Code in Project** opens a terminal running it. Ask for a panel, "add a heatmap of `data/correlations.csv` as panel c", and watch it appear. See
 [AI agents and the terminal](../ai/agents.md).

@@ -1,7 +1,14 @@
 #!/bin/bash
 # Install Fignimble: a Python environment for its engine, the app in ~/Applications, and the `fignimble` command.
+# On Linux this runs apps/desktop/install_linux.sh (the editor for Linux and Windows); on Windows use
+# install_fignimble.ps1.
 set -euo pipefail
 cd "$(dirname "$0")"
+case "$(uname -s)" in
+  Darwin) ;;
+  MINGW*|MSYS*|CYGWIN*) exec powershell.exe -ExecutionPolicy Bypass -File install_fignimble.ps1 ;;   # Git Bash on Windows
+  *) exec bash apps/desktop/install_linux.sh "$@" ;;
+esac
 ROOT="$PWD"
 ENV="$HOME/Library/Application Support/Fignimble/python"
 PY="${PYTHON:-$(command -v python3)}"

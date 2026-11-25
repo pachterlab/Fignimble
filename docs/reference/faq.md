@@ -7,6 +7,9 @@ Choose **Set Up Python**: it downloads Python 3.11 with what Fignimble needs int
 `python3` that has matplotlib, PyMuPDF (below version 2), Pillow and NumPy. If the setup fails, check the internet
 connection; its error says which step failed.
 
+On Windows and Linux, run the installer (`install_fignimble.ps1`, `install_fignimble.sh`) again, or choose a Python
+with those packages with **Choose a Python…**.
+
 ## A panel shows an error instead of a plot
 
 The panel's code raised an exception. The preflight list (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>P</kbd>) shows the error and
@@ -38,7 +41,8 @@ which is small for a poster. Place it larger, or draw it with a style with large
 
 ## EPS export, CMYK or outlines don't work
 
-These use Ghostscript: `brew install ghostscript`.
+These use Ghostscript: `brew install ghostscript` on a Mac, [ghostscript.com](https://www.ghostscript.com) (or
+`winget install ArtifexSoftware.GhostScript`) on Windows, `sudo apt install ghostscript` on Linux.
 
 ## The BioCartoon search is empty
 
@@ -53,7 +57,14 @@ minutes is stopped.
 
 ## Where is the log?
 
-`~/Library/Logs/fignimble.log`. Attach it to a [bug report](https://github.com/pachterlab/Fignimble/issues).
+`~/Library/Logs/fignimble.log` on a Mac, `%LOCALAPPDATA%\Fignimble\Logs\fignimble.log` on Windows,
+`~/.local/state/fignimble/fignimble.log` on Linux (**Help ▸ Show Log** there). Attach it to a
+[bug report](https://github.com/pachterlab/Fignimble/issues).
+
+## Text is wider on Linux than on a Mac
+
+Figures use Arial by default, which Linux rarely has. Install Liberation Sans, which has Arial's widths
+(`sudo apt install fonts-liberation`), and delete the project's `.fignimble` folder so its panels are drawn again.
 
 ## What goes over the network?
 

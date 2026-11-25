@@ -1,6 +1,8 @@
 # Projects on an SSH server
 
-When a project's data and Python environment are on a Linux server, Fignimble can edit it from your Mac. The figures
+When a project's data and Python environment are on a Linux server, Fignimble can edit it from your Mac (or, with
+the [Windows and Linux editor](../getting-started/windows-linux.md#what-is-different), from Linux, when the server
+takes your ssh key). The figures
 are drawn on the server, by its Python, next to its data. The window on the Mac works as it does for a local project.
 
 **File ▸ Open Project on SSH Server…** (<kbd>⇧</kbd><kbd>⌘</kbd><kbd>O</kbd>) asks for three things:
