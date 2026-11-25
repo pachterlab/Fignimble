@@ -19,6 +19,7 @@ their code.
 
 <div class="fg-buttons" markdown>
 [Download for macOS](https://github.com/pachterlab/Fignimble/releases/latest){ .md-button .md-button--primary }
+[Install on Windows or Linux](getting-started/installation.md){ .md-button }
 [Manual](getting-started/introduction.md){ .md-button }
 [View on GitHub](https://github.com/pachterlab/Fignimble){ .md-button }
 </div>
@@ -43,7 +44,11 @@ figures, kept up to date by their code: templates for the usual conference sizes
 headings, QR codes, and PDFs with bleed and crop marks for the print shop. Every exported file records the code and
 data it was made from. And because the code stays clean, you can open a terminal in the app, start Claude Code, Codex or Gemini CLI,
 and have the agent write panels while you watch the figure update. When the data are on a Linux server, Fignimble
-can [open the project there](guide/remote.md): the server draws the panels and the Mac shows them.
+can [open the project there](guide/remote.md): the server draws the panels and your computer shows them.
+
+Fignimble runs on macOS, Windows and Linux. On a Mac it is a native app; on Windows and Linux it is a Qt editor
+around the same engine, so a project opens, renders and exports the same on all three
+([how they differ](getting-started/windows-linux.md)).
 
 <div class="grid cards" markdown>
 
@@ -105,8 +110,9 @@ can [open the project there](guide/remote.md): the server draws the panels and t
 
 ## Get started
 
-1. [Install Fignimble](getting-started/installation.md): download the disk image and drag the app to Applications.
-   The first time it opens, it sets up the Python it draws with.
+1. [Install Fignimble](getting-started/installation.md): on a Mac, download the disk image and drag the app to
+   Applications (the first time it opens, it sets up the Python it draws with); on Windows or Linux, run the
+   installer script from the source.
 2. Follow the [quick start](getting-started/quick-start.md) to make a figure with two panels, letter it, style it
    for a journal and export it.
 3. Read [key concepts](getting-started/concepts.md) to see how figures, panels and the canvas fit together.

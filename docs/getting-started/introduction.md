@@ -65,5 +65,7 @@ fig.qr("https://github.com/pachterlab/Fignimble", x=740, y=1090, w=80)
 
 ## Requirements
 
-Fignimble runs on macOS 13 or later, on Apple Silicon and Intel Macs. It draws with Python 3, which it can install
-for you the first time it opens. See [installation](installation.md).
+Fignimble runs on macOS 13 or later (Apple Silicon and Intel), on Windows 10 and 11, and on Linux. It draws with
+Python 3.10 or later: the Mac app can install it for you the first time it opens, and the Windows and Linux
+installers set it up. See [installation](installation.md), and [Windows and Linux](windows-linux.md) for how the
+editor there differs from the Mac app.

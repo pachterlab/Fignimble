@@ -10,8 +10,18 @@ requires-python = ">=3.10"
 dependencies = ["matplotlib>=3.7", "pymupdf>=1.24", "pillow>=10", "numpy>=1.24"]
 license = { text = "BSD-2-Clause" }
 
+[project.optional-dependencies]
+# the editor for Windows and Linux (apps/desktop); macOS has its own app (apps/macos)
+desktop = ["PySide6-Essentials>=6.5"]
+
 [project.scripts]
 fignimble = "fignimble.cli:main"
 
+[project.gui-scripts]
+fignimble-app = "fignimble_app.__main__:main"
+
 [tool.setuptools.packages.find]
-where = ["engine"]
+where = ["engine", "apps/desktop"]
+
+[tool.setuptools.package-data]
+fignimble_app = ["assets/*"]

@@ -2,6 +2,11 @@
 
 From the menus of Fignimble (generated from the app's menu definitions).
 
+On Windows and Linux the editor has the same shortcuts with <kbd>Ctrl</kbd> for <kbd>⌘</kbd> and <kbd>Alt</kbd>
+for <kbd>⌥</kbd> (<kbd>⇧</kbd> is <kbd>Shift</kbd>). Its **File** menu also holds Check Packages and Quit
+(<kbd>Ctrl</kbd>+<kbd>Q</kbd>), and its **Terminal** menu opens the system's terminal
+(<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>); see [Windows and Linux](../getting-started/windows-linux.md).
+
 ## Fignimble
 
 | Command | Keys |

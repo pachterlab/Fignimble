@@ -11,6 +11,10 @@ below the figure; **New Terminal** (<kbd>⌥</kbd><kbd>⌘</kbd><kbd>⇧</kbd><k
 **Run claude** to start [Claude Code](https://claude.com/claude-code), or type `codex`, `gemini` or any other command.
 The `fignimble` command is ready there.
 
+On Windows and Linux, the **Terminal** menu opens the system's terminal in the project folder instead, with the
+`fignimble` command on its `PATH`: **Run Claude Code / Codex / Gemini CLI in Project** starts one running that agent
+(see [Windows and Linux](../getting-started/windows-linux.md#the-terminal-and-agents)).
+
 ## What the agent is told
 
 When a project opens, Fignimble writes `CLAUDE.md`, `AGENTS.md` and `GEMINI.md` into it, only where the project has

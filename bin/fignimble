@@ -1,6 +1,6 @@
 #!/bin/bash
-# The fignimble command line (render, check, export figures). Uses $FIGNIMBLE_PYTHON, else the Python environment the
-# installer made, else this checkout's .venv, else python3 on the PATH.
+# The fignimble command line (render, check, export figures) on macOS and Linux (bin/fignimble.cmd on Windows). Uses
+# $FIGNIMBLE_PYTHON, else the Python environment the installer made, else this checkout's .venv, else python3 on the PATH.
 # through a link (~/.local/bin/fignimble -> the app's copy), to where the script really is
 SRC="${BASH_SOURCE[0]}"
 while [ -L "$SRC" ]; do
@@ -9,7 +9,9 @@ while [ -L "$SRC" ]; do
 done
 HERE="$(cd -P "$(dirname "$SRC")" && pwd)"
 if [ -d "$HERE/../engine/fignimble" ]; then ENGINE="$HERE/../engine"; else ENGINE="$HERE/../Resources/engine"; fi
-for py in "${FIGNIMBLE_PYTHON:-}" "$HOME/Library/Application Support/Fignimble/python/bin/python" "$HERE/../.venv/bin/python" "$(command -v python3)"; do
+# the installer's Python: ~/Library/Application Support/Fignimble on a Mac, ~/.local/share/fignimble on Linux
+for py in "${FIGNIMBLE_PYTHON:-}" "$HOME/Library/Application Support/Fignimble/python/bin/python" \
+          "${XDG_DATA_HOME:-$HOME/.local/share}/fignimble/python/bin/python" "$HERE/../.venv/bin/python" "$(command -v python3)"; do
   if [ -n "$py" ] && [ -x "$py" ]; then PY="$py"; break; fi
 done
 PYTHONPATH="$ENGINE${PYTHONPATH:+:$PYTHONPATH}" exec "$PY" -m fignimble.cli "$@"

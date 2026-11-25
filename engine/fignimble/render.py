@@ -2535,7 +2535,8 @@ def _flow(blocks, size: float, bold: bool, width_mm: float, fig, props) -> list[
 
 
 def _gs():
-    return shutil.which("gs") or next((p for p in ("/opt/homebrew/bin/gs", "/usr/local/bin/gs") if Path(p).exists()), None)
+    from . import system
+    return system.ghostscript()
 
 
 def _ghostscript(src: str, dest: str, fmt: str, cmyk: bool, outline: bool, dpi: int = 1200):
@@ -2543,7 +2544,8 @@ def _ghostscript(src: str, dest: str, fmt: str, cmyk: bool, outline: bool, dpi: 
     and pictures keep their pixels (no downsampling)."""
     gs = _gs()
     if gs is None:
-        raise RuntimeError("EPS, CMYK PDF and outlined text need Ghostscript: brew install ghostscript")
+        from . import system
+        raise RuntimeError("EPS, CMYK PDF and outlined text need Ghostscript: " + system.ghostscript_hint())
     args = [gs, "-dNOPAUSE", "-dBATCH", "-dSAFER", "-dQUIET", f"-r{int(dpi)}",
             "-dDownsampleColorImages=false", "-dDownsampleGrayImages=false", "-dDownsampleMonoImages=false",
             "-sDEVICE=" + ("eps2write" if fmt == "eps" else "pdfwrite"), f"-sOutputFile={dest}"]
@@ -2559,9 +2561,10 @@ def _ghostscript(src: str, dest: str, fmt: str, cmyk: bool, outline: bool, dpi: 
 def _to_cmyk(im):
     """A picture in CMYK for print, through the system's generic CMYK profile when there is one."""
     from PIL import ImageCms
-    prof = Path("/System/Library/ColorSync/Profiles/Generic CMYK Profile.icc")
+    from . import system
+    prof = system.cmyk_profile()
     im = im.convert("RGB")
-    if prof.exists():
+    if prof:
         try:
             srgb = ImageCms.createProfile("sRGB")
             return ImageCms.profileToProfile(im, srgb, str(prof), outputMode="CMYK")

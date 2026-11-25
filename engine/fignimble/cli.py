@@ -41,6 +41,12 @@ def _renderer(fig: Path):
 
 
 def main(argv=None):
+    if os.name == "nt":                                  # a Windows code page can't print every character (▸, µ, ≥)
+        for s in (sys.stdout, sys.stderr):
+            try:
+                s.reconfigure(errors="replace")
+            except (AttributeError, ValueError):
+                pass
     ap = argparse.ArgumentParser(prog="fignimble", description="Multi-panel figures for publication, from Python.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("new", help="make a new project")

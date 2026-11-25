@@ -27,7 +27,7 @@ def _ssh():
 
 def ssh_command() -> list[str]:
     """ssh and its options, through the app's shared connection to the server when there is one."""
-    share = os.environ.get("FIGNIMBLE_SSH_SHARE")
+    share = os.environ.get("FIGNIMBLE_SSH_SHARE") if os.name != "nt" else None    # Windows' ssh has no ControlMaster
     opts = ["-o", f"ControlPath={share}/%C", "-o", "ControlMaster=auto", "-o", "ControlPersist=4h"] if share else []
     return _ssh() + OPTIONS + opts
 

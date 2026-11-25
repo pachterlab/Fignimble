@@ -9,6 +9,10 @@ asking a coding agent (Claude Code, Codex, Gemini CLI) in Fignimble's terminal. 
 Fignimble re-renders as they change. A poster is a figure too: it places the paper's figures whole, drawn from
 their code, so it changes when they do.
 
+Fignimble runs on **macOS** (a native app), and on **Windows and Linux** (a Qt editor around the same engine; see
+[Windows and Linux](https://pachterlab.github.io/Fignimble/getting-started/windows-linux/)). Shortcuts below are
+written as on a Mac; on Windows and Linux use Ctrl for ⌘ and Alt for ⌥.
+
 **User guide: [pachterlab.github.io/Fignimble](https://pachterlab.github.io/Fignimble/)**
 
 Fignimble is built on [Manimble](https://github.com/pachterlab/Manimble): the engine/app split, the JSON-lines
@@ -134,7 +138,8 @@ In the editor:
   panel letter; right-click it for its credit. Needs the `biocartoon` command (`pip install biocartoon`; the pane
   offers to install it, and uses Manimble's or the BioCartoon app's copy if there is one).
 - **Print**: export EPS, CMYK (PDF, EPS, TIFF, JPEG) and text as outlines (PDF, EPS, SVG); PDF/EPS conversions use
-  Ghostscript (`brew install ghostscript`). `fignimble export fig1.py fig1.eps --cmyk --outline`.
+  Ghostscript (`brew install ghostscript`; Windows: ghostscript.com or `winget install ArtifexSoftware.GhostScript`;
+  Linux: `sudo apt install ghostscript`). `fignimble export fig1.py fig1.eps --cmyk --outline`.
 - Equal-spacing hints while dragging, **History** (⌥⌘⇧H: click a step to go back to it), **Replace…** for a picture's
   file, and the **zoom tool (Z)**: drag a box to zoom to it, ⌥-click to zoom out.
 
@@ -238,6 +243,8 @@ fignimble journals
 
 ## Install
 
+### macOS
+
 **Download:** the disk image `Fignimble-<version>-macOS.dmg` from the
 [latest release](https://github.com/pachterlab/Fignimble/releases/latest) (universal, macOS 13+, signed and notarized):
 open it and drag Fignimble to Applications. The first time it opens it offers to **Set Up Python**: it downloads
@@ -256,12 +263,45 @@ that has them (`pip install matplotlib "pymupdf<2" pillow numpy`).
 open ~/Applications/Fignimble.app --args "$PWD/examples/demo"
 ```
 
+### Windows
+
+With [Python](https://www.python.org/downloads/) 3.10+ and the source (`git clone`, or a zip from GitHub), in
+PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File install_fignimble.ps1   # Python environment in %LOCALAPPDATA%\Fignimble\python,
+                                                                 # Fignimble in the Start menu, fignimble on the PATH
+fignimble-app examples\demo                                      # in a new terminal
+```
+
+### Linux
+
+With Python 3.10+ (and `python3-venv`), from the source:
+
+```bash
+./install_fignimble.sh          # Python environment in ~/.local/share/fignimble/python, the fignimble and
+                                # fignimble-app commands in ~/.local/bin, Fignimble in the applications menu
+fignimble-app examples/demo
+```
+
+Install Liberation Sans too (`sudo apt install fonts-liberation`), which has Arial's widths, so text measures as on a
+Mac or Windows; and `libxcb-cursor0` if Qt's window doesn't open. Or, on any system, into an environment of your own:
+`pip install "fignimble[desktop] @ git+https://github.com/pachterlab/Fignimble"`, then `fignimble-app`.
+
+### Development
+
 For development: `python3 -m venv .venv && .venv/bin/pip install -r engine/requirements.txt pytest`, then
 `apps/macos/build_app.sh` (the app finds the checkout's `.venv`) and `.venv/bin/python -m pytest tests`. Running the
 debug binary with `FIGNIMBLE_SHOTS=<folder>` walks through the editor on a project (give it a copy) and saves pictures of
 the window; `FIGNIMBLE_SHOTS_SCENE=audit` checks Select All, Copy, Cut, Paste, Undo and Delete in the canvas, the code
 pane, the terminal, the inspector, the BioCartoon search and the SSH dialog, and copying between them ("audit PASS/FAIL"
 lines in ~/Library/Logs/fignimble.log).
+
+The Windows and Linux editor runs from the checkout with `PYTHONPATH=engine:apps/desktop python -m fignimble_app`
+(after `pip install PySide6-Essentials`); its tests run without a screen
+(`QT_QPA_PLATFORM=offscreen PYTHONPATH=engine python -m pytest tests`). GitHub Actions runs the tests on macOS, Linux
+and Windows, and the Linux and Windows installers, on every push (`.github/workflows/tests.yml`). What differs
+between systems lives in `engine/fignimble/system.py`.
 
 ## Layout
 
@@ -275,9 +315,12 @@ engine/fignimble/   api.py       the figure language (Figure, Labels, Style)
                  core.py      session: render worker, edit operations, undo, watching the project
                  rpc.py       JSON lines over stdio for the app (docs/protocol.md)
                  cli.py       the fignimble command
+                 system.py    what differs between macOS, Linux and Windows (folders, log, Ghostscript)
 apps/macos/      the macOS app (Swift, AppKit, SwiftTerm)
+apps/desktop/    the Windows and Linux editor (Python, PySide6), and the Linux installer
+bin/             the fignimble command (fignimble for macOS and Linux, fignimble.cmd for Windows)
 examples/demo/   a project to try
 examples/kohl2025-ed5/   a 37-panel Nature figure (Cao et al. 2025, Extended Data Fig. 5) rebuilt from its authors'
                  code and data (CC BY 4.0)
-tests/           engine tests
+tests/           engine tests, and the Windows and Linux editor's (tests/test_desktop.py)
 ```
