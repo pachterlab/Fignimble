@@ -151,6 +151,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                       item("Export All Figures as PDF…", #selector(MainController.exportAll(_:)), "e", [.command, .shift]),
                       item("Export Table…", #selector(MainController.exportTable(_:))),
                       item("Export Source Data…", #selector(MainController.exportSourceData(_:))), sep(),
+                      item("Check Reproducibility…", #selector(MainController.checkReproducibility(_:))),
+                      item("Tag Version…", #selector(MainController.tagVersion(_:))),
+                      item("Compare with Version…", #selector(MainController.compareWithVersion(_:))), sep(),
                       item("Close", #selector(NSWindow.performClose(_:)), "w", to: nil)])
         menu("Edit", [item("Undo", #selector(MainController.undoEdit(_:)), "z"),
                       item("Redo", #selector(MainController.redoEdit(_:)), "z", [.command, .shift]), sep(),

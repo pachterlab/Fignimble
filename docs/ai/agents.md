@@ -64,6 +64,7 @@ fignimble install-skills --dest DIR      # any other agent's skills directory
 | `/fignimble-from-notebook` | turn a notebook's or scripts' plots into panels and assemble them into a figure |
 | `/fignimble-journal` | restyle figures for a journal, fix what `fignimble check` reports, export files that meet its rules |
 | `/fignimble-poster` | make a poster that places the paper's figures whole, and export it for printing |
+| `/fignimble-reproduce` | check that a project's figures reproduce, look into what doesn't, write REPRODUCIBILITY.md, and add missing recipes |
 
 For example: `/fignimble-poster Make an A0 poster from fig1 and fig2 with the abstract in intro.md.`
 

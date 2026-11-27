@@ -23,7 +23,7 @@ import time
 from pathlib import Path
 
 from . import remote, srcedit, tables, templates
-from .render import SKIP_DIRS, is_figure_source, is_table_source, outside_stats
+from .render import SKIP_DIRS, is_figure_source, is_table_source, outside_stats, project_walk
 from .srcedit import REMOVE, EditError, Raw, Source
 
 ENGINE_ROOT = str(Path(__file__).resolve().parent.parent)
@@ -42,6 +42,9 @@ TABLE_ARGS = {"title": {"text": "title"}, "notes": {"text": "notes"},
               "cells": {k: k for k in ("rows", "w", "header", "decimals", "align", "grid", "size", "font", "color",
                                        "title", "notes")}}
 INSET_KEYS = {"x", "y", "w", "h", "label", "group", "name"}
+
+
+RECORD_AFTER = 3.0                 # seconds the project must stay unchanged before exports/ and the lock are written
 
 
 def log(*a):
@@ -212,6 +215,13 @@ class Session:
         # with it): watched with the project's own, so that when one changes the figure is drawn again
         self.outside: dict[str, list[str]] = {}
         self._sig = self.fingerprint()
+        # exports/ and fignimble.lock (repro.py), brought up to date by a worker of their own a moment after the
+        # project stops changing, so that the editor's renders never wait for them
+        self.python = python or sys.executable
+        self.recorder: WorkerProc | None = None
+        self.record_due: float | None = time.time()      # when to record next (None: nothing to record)
+        self.recording = False
+        self.last_record: dict | None = None
         self.agent_files = templates.write_agent_files(self.project)
         threading.Thread(target=self._watch, daemon=True).start()
 
@@ -219,6 +229,8 @@ class Session:
         self.closed = True
         templates.remove_agent_files(self.project, self.agent_files)
         self.worker.close()
+        if self.recorder:
+            self.recorder.close()
 
     def emit(self, ev: dict):
         if self.on_event:
@@ -228,8 +240,7 @@ class Session:
 
     def fingerprint(self) -> str:
         items = []
-        for dirpath, dirs, files in os.walk(self.project):
-            dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
+        for dirpath, dirs, files in project_walk(self.project):
             for f in files:
                 if f in templates.AGENT_FILES:
                     continue
@@ -284,10 +295,94 @@ class Session:
                 continue
             if sig != self._sig:
                 self._sig = sig
+                self.record_due = time.time() + RECORD_AFTER
                 self.emit({"event": "changed"})
+            elif self.record_due is not None and time.time() >= self.record_due and not self.recording:
+                self.record_due = None
+                if self.records():
+                    self.recording = True
+                    threading.Thread(target=self._record, daemon=True).start()
             elif time.time() - last_bg > 1.5:
                 last_bg = time.time()
                 self._render_background()
+
+    # --- exports/ and the lock ---
+
+    def records(self) -> bool:
+        """Whether this project keeps exports/ and a lock up to date: a marked project (fignimble.toml) that
+        doesn't turn it off ([exports] on_save = false)."""
+        if not (self.project / templates.MARKER).is_file():
+            return False
+        from . import repro
+        try:
+            return bool(repro.load_config(self.project).exports.get("on_save", True))
+        except Exception:                                # noqa: BLE001
+            return True
+
+    def _record(self):
+        try:
+            if self.recorder is None:
+                self.recorder = WorkerProc(self.python)
+            res = self.recorder.request({"cmd": "record", "project": str(self.project), "cache": str(self.cache)},
+                                        timeout=1800)
+            self.last_record = {**res, "at": time.time()}
+            if res.get("written") or res.get("removed") or res.get("errors"):
+                log("recorded", len(res.get("written", [])), "written,", len(res.get("removed", [])), "removed",
+                    ("; errors: " + ", ".join(res["errors"])) if res.get("errors") else "")
+            self.emit({"event": "recorded", "written": res.get("written", []), "removed": res.get("removed", []),
+                       "errors": res.get("errors", {})})
+        except Exception as exc:                          # noqa: BLE001
+            log("record", exc)
+            self.last_record = {"error": str(exc), "at": time.time()}
+        finally:
+            self.recording = False
+
+    def record_now(self, a: dict | None = None) -> dict:
+        """Bring exports/ and the lock up to date now (File ▸ Save, a tag): the record's report."""
+        if self.recorder is None:
+            self.recorder = WorkerProc(self.python)
+        req = {"cmd": "record", "project": str(self.project), "cache": str(self.cache),
+               "force": bool((a or {}).get("force"))}
+        res = self.recorder.request(req, timeout=1800)
+        self.last_record = {**res, "at": time.time()}
+        return res
+
+    def repro_check(self, a: dict | None = None) -> dict:
+        """The project against its lock (repro.check), each figure drawn again by the recorder's worker."""
+        if self.recorder is None:
+            self.recorder = WorkerProc(self.python)
+        return self.recorder.request({"cmd": "repro_check", "project": str(self.project), "cache": str(self.cache)},
+                                     timeout=1800)
+
+    def tags(self, a: dict | None = None) -> dict:
+        from . import repro
+        try:
+            return {"ok": True, "tags": repro.tags(self.project)}
+        except repro.GitError as exc:
+            return {"ok": False, "error": str(exc), "tags": []}
+
+    def tag(self, a: dict) -> dict:
+        """Name this version: {name, message?, force?} -> repro.tag's result, or {ok: false, error}."""
+        if self.recorder is None:
+            self.recorder = WorkerProc(self.python)
+        try:
+            res = self.recorder.request({"cmd": "tag", "project": str(self.project), "cache": str(self.cache),
+                                         "name": a["name"], "message": a.get("message"),
+                                         "force": bool(a.get("force"))}, timeout=1800)
+        except RuntimeError as exc:
+            return {"ok": False, "error": str(exc).removeprefix("GitError: ")}
+        return {"ok": True, **res}
+
+    def diff(self, a: dict) -> dict:
+        """Compare versions: {a?, b?} -> repro.diff's result, or {ok: false, error}."""
+        if self.recorder is None:
+            self.recorder = WorkerProc(self.python)
+        try:
+            res = self.recorder.request({"cmd": "diff", "project": str(self.project), "cache": str(self.cache),
+                                         "a": a.get("a"), "b": a.get("b")}, timeout=1800)
+        except RuntimeError as exc:
+            return {"ok": False, "error": str(exc).removeprefix("GitError: ")}
+        return {"ok": True, **res}
 
     def _render_background(self):
         """Keep the other figures' thumbnails current while nothing else happens."""

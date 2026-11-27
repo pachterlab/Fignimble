@@ -1,0 +1,310 @@
+{
+ "exports": {
+  "exports/data/fig1/A.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig1.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "2320b9f9ad9b3d9f",
+   "panel": "A",
+   "picture": "6f864333468215bfc7d3a8b0c9fd4587",
+   "sha256": "80783801427516f3a39e30d55bef68fcc978af0b01c230091f2633e59a339eab",
+   "tables": 4
+  },
+  "exports/data/fig1/B.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig1.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "2320b9f9ad9b3d9f",
+   "panel": "B",
+   "picture": "6f864333468215bfc7d3a8b0c9fd4587",
+   "sha256": "04813952d12430c184ad3e89082d4a0c3e5a50dac05205ca2862381691c99f87",
+   "tables": 4
+  },
+  "exports/data/fig1/C.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig1.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "2320b9f9ad9b3d9f",
+   "panel": "C",
+   "picture": "6f864333468215bfc7d3a8b0c9fd4587",
+   "sha256": "b0b2b924caf127523a51329320481479987b2ba0145d75bef8698464d87fd89f",
+   "tables": 1
+  },
+  "exports/data/fig1/F.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig1.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "2320b9f9ad9b3d9f",
+   "panel": "F",
+   "picture": "6f864333468215bfc7d3a8b0c9fd4587",
+   "sha256": "99863c91b809a3398caec7d04d193292f7d20f417157d00c278cf8646fcf60ea",
+   "tables": 1
+  },
+  "exports/data/fig2/A.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig2.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "458ba56036b470ce",
+   "panel": "A",
+   "picture": "47287fdcc8402cf3ac16c1bff232f9a6",
+   "sha256": "80783801427516f3a39e30d55bef68fcc978af0b01c230091f2633e59a339eab",
+   "tables": 4
+  },
+  "exports/data/fig2/B.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig2.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "458ba56036b470ce",
+   "panel": "B",
+   "picture": "47287fdcc8402cf3ac16c1bff232f9a6",
+   "sha256": "b0b2b924caf127523a51329320481479987b2ba0145d75bef8698464d87fd89f",
+   "tables": 1
+  },
+  "exports/data/fig2/C.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig2.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "458ba56036b470ce",
+   "panel": "C",
+   "picture": "47287fdcc8402cf3ac16c1bff232f9a6",
+   "sha256": "99863c91b809a3398caec7d04d193292f7d20f417157d00c278cf8646fcf60ea",
+   "tables": 1
+  },
+  "exports/data/fig2/D.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig2.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "458ba56036b470ce",
+   "panel": "D",
+   "picture": "47287fdcc8402cf3ac16c1bff232f9a6",
+   "sha256": "e01d4a52ac09bad60049db407f4b94ed289b4761b2aaa6ffbcce89d8ba984e08",
+   "tables": 4
+  },
+  "exports/data/fig2/panel-1.csv": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig2.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "458ba56036b470ce",
+   "panel": "1",
+   "picture": "47287fdcc8402cf3ac16c1bff232f9a6",
+   "sha256": "1c83ea95a2917fdaa9ae4f6d51e9295992af7837e65c72128953cfd8d2a5c7d4",
+   "tables": 1
+  },
+  "exports/data/fig3/B.csv": {
+   "at": "2026-11-27T22:29:37Z",
+   "figure": "fig3.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "ce242f406bbba1d2",
+   "panel": "B",
+   "picture": "2af0bf44f479916366887420db1bd627",
+   "sha256": "04813952d12430c184ad3e89082d4a0c3e5a50dac05205ca2862381691c99f87",
+   "tables": 4
+  },
+  "exports/fig1.pdf": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig1.py",
+   "kind": "figure",
+   "panels": {
+    "A": [
+     4,
+     3,
+     56,
+     52
+    ],
+    "B": [
+     65,
+     3,
+     56,
+     52
+    ],
+    "C": [
+     126,
+     3,
+     56,
+     52
+    ],
+    "D": [
+     4,
+     63,
+     52,
+     39.0
+    ],
+    "E": [
+     65,
+     63,
+     56,
+     47
+    ],
+    "F": [
+     129,
+     63,
+     53,
+     50
+    ]
+   },
+   "picture": "6f864333468215bfc7d3a8b0c9fd4587",
+   "sha256": "9a627ad7206e23711d032f2744d3d3782c11ddee2372a24eb8044e7c17a766b0",
+   "size": [
+    183,
+    118
+   ],
+   "sources": {
+    "fig1.py": "14690b8806d5c40455b263a62b229bbfdeddd7f1ff78d3cd4609e41b51f4bdc2",
+    "images/cells.png": "d117f44facad15a54f4345adc481708ee61935e71f8a5c81c711d9ea0197b373",
+    "images/schematic.svg": "40d22d80a88ff2bbc83394e4cd39e7efd34670dee288cecb8f652dc873eaa465",
+    "panels/expression.py": "84ff49a33640579d168c26dde7e0740c984332459f09c33cf0a865fb0725c437",
+    "panels/heatmap.py": "d73510e1c7bc8fdeb684665984ae9b7f9616661208294f7eef85a4db5f633e1d",
+    "panels/scatter.py": "99ed6488133a327ab0f1217cfeccd205212457457b428c59843c0375c3be53c5",
+    "style.py": "738bf989ecb8ed38d0fa5efeb3321d1045df02359c3eb7ee210c90a5678d9f06"
+   }
+  },
+  "exports/fig2.pdf": {
+   "at": "2026-11-27T22:29:36Z",
+   "figure": "fig2.py",
+   "kind": "figure",
+   "panels": {
+    "A": [
+     4,
+     3,
+     109.12,
+     44.59
+    ],
+    "B": [
+     119.12,
+     3,
+     61.88,
+     95.17
+    ],
+    "C": [
+     4,
+     53.59,
+     51.56,
+     44.59
+    ],
+    "D": [
+     61.56,
+     53.59,
+     51.56,
+     44.59
+    ]
+   },
+   "picture": "47287fdcc8402cf3ac16c1bff232f9a6",
+   "sha256": "17687a8f35226157f21f5e300ea1b7c5c3925909de6a8acf87ba53b3e5114a32",
+   "size": [
+    183,
+    110
+   ],
+   "sources": {
+    "fig2.py": "9bb08e7e4cd917f014c55d6e19616320b88b1049a83d53d7285562c8d5b8a26f",
+    "panels/counts.py": "9e9145b927dfbecd5c99ae0f891b6237f31903c0cdd583ebdc5e06c3cca62985",
+    "panels/expression.py": "84ff49a33640579d168c26dde7e0740c984332459f09c33cf0a865fb0725c437",
+    "panels/heatmap.py": "d73510e1c7bc8fdeb684665984ae9b7f9616661208294f7eef85a4db5f633e1d",
+    "style.py": "738bf989ecb8ed38d0fa5efeb3321d1045df02359c3eb7ee210c90a5678d9f06"
+   }
+  },
+  "exports/fig3.pdf": {
+   "at": "2026-11-27T22:29:37Z",
+   "figure": "fig3.py",
+   "kind": "figure",
+   "panels": {
+    "A": [
+     4,
+     3,
+     80,
+     60.0
+    ],
+    "B": [
+     142,
+     3,
+     40,
+     46
+    ],
+    "C": [
+     128,
+     58,
+     26,
+     31.2
+    ],
+    "D": [
+     160,
+     60,
+     21,
+     17.8
+    ],
+    "b": [
+     90.4,
+     3.0,
+     44.0,
+     33.0
+    ]
+   },
+   "picture": "2af0bf44f479916366887420db1bd627",
+   "sha256": "7d78a7067eaf962cc400c5e60c30379c7fc149b1e7edb1e4c0911bd3400595cd",
+   "size": [
+    183,
+    95
+   ],
+   "sources": {
+    "fig3.py": "793f644b5d8a9f64d3b9863e8f3bbef35d68cba9cddd79aad6836316799a2c2e",
+    "images/cells.png": "d117f44facad15a54f4345adc481708ee61935e71f8a5c81c711d9ea0197b373",
+    "images/schematic.svg": "40d22d80a88ff2bbc83394e4cd39e7efd34670dee288cecb8f652dc873eaa465",
+    "panels/scatter.py": "99ed6488133a327ab0f1217cfeccd205212457457b428c59843c0375c3be53c5",
+    "style.py": "738bf989ecb8ed38d0fa5efeb3321d1045df02359c3eb7ee210c90a5678d9f06"
+   }
+  },
+  "exports/table1.csv": {
+   "at": "2026-11-27T22:29:37Z",
+   "figure": "table1.py",
+   "kind": "table",
+   "sha256": "bddf18c17cd6105ca430d060cad0506df6e881f1da1279dde35ada37ae8a57b1",
+   "sources": {
+    "style.py": "738bf989ecb8ed38d0fa5efeb3321d1045df02359c3eb7ee210c90a5678d9f06",
+    "table1.py": "9ba8fa87dbc4b2194ac4351c4c0f1c987407e15e9a2d71f6cf907f9ad4b7ce56",
+    "tables/table1.csv": "bddf18c17cd6105ca430d060cad0506df6e881f1da1279dde35ada37ae8a57b1"
+   }
+  },
+  "exports/table2.csv": {
+   "at": "2026-11-27T22:29:37Z",
+   "figure": "table2.py",
+   "kind": "table",
+   "sha256": "3abcd18361d7db1d9a8dfccb2ccccaf20d2251bb3945ddda542c4c2bc150ea7e",
+   "sources": {
+    "style.py": "738bf989ecb8ed38d0fa5efeb3321d1045df02359c3eb7ee210c90a5678d9f06",
+    "table2.py": "0023653f6c2da68ab0a7b2e80c3f00fefd4659d5c7608e1a9fa923536a22e098",
+    "tables/table2.csv": "3abcd18361d7db1d9a8dfccb2ccccaf20d2251bb3945ddda542c4c2bc150ea7e"
+   }
+  }
+ },
+ "fignimble": "0.5.2",
+ "lock": 1,
+ "outputs": {
+  "images/cells.png": {
+   "at": "2026-11-27T22:29:37Z",
+   "figures": [
+    "fig1.py",
+    "fig3.py"
+   ],
+   "how": "observed",
+   "sha256": "d117f44facad15a54f4345adc481708ee61935e71f8a5c81c711d9ea0197b373"
+  },
+  "images/schematic.svg": {
+   "at": "2026-11-27T22:29:37Z",
+   "figures": [
+    "fig1.py",
+    "fig3.py"
+   ],
+   "how": "observed",
+   "sha256": "40d22d80a88ff2bbc83394e4cd39e7efd34670dee288cecb8f652dc873eaa465"
+  }
+ }
+}

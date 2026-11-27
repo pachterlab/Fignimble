@@ -64,6 +64,10 @@ fig.qr("https://github.com/pachterlab/Fignimble", x=740, y=1090, w=80)
   (or a Markdown file), QR codes, and PDFs with bleed and crop marks for printing.
 - **Provenance**: every exported file records the git commit and a fingerprint of each file it was made from, and
   `fignimble provenance` checks it against the project.
+- **Reproducibility**: the project keeps a PDF of every figure, a CSV of every table and of each panel's values, and
+  a lock of what each was made from; recipes in `fignimble.toml` say how pictures made elsewhere are made;
+  `fignimble reproduce` runs them again, and versions (`fignimble tag submitted`) can be compared with
+  `fignimble diff`.
 - **An AI agent in the terminal** that knows how the project works and can look at its own renders.
 
 ## Requirements

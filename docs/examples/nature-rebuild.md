@@ -85,6 +85,27 @@ aa–aj).
 
 The [project's README](https://github.com/pachterlab/Fignimble/tree/main/examples/kohl2025-ed5) has the details.
 
+## Checking that it still reproduces
+
+The project keeps what it shows next to its code: `exports/ed5.pdf`, one CSV per panel in `exports/data/ed5/`
+(`a.csv` holds the bars of panel a and the brackets above them), and `fignimble.lock`, the hashes of what each was
+made from. Its `fignimble.toml` says the one thing the code can't: the data were copied from the authors' repository
+and the schematics' icons came from BioCartoon.
+
+```console
+$ cd examples/kohl2025-ed5
+$ fignimble check --fast
+reproducibility (exports/, fignimble.lock, fignimble.toml):
+    current    exports/ed5.pdf
+  · manual     data/estrous_data.csv  copied from NPS_ephys in FrancisCrickInstitute/negative_parental_switch ...
+  · manual     images/mouse.svg  SciDraw icons from BioCartoon: ...
+  35 current, 7 manual
+```
+
+Change a panel's statistics or the data, and `fignimble check` names the exports that are out of date;
+`fignimble diff` against a version says which panels' values moved, by how much, and why. See
+[Reproducibility](../guide/reproducibility.md).
+
 ## What this says about figures
 
 The code was good: it ran end to end with today's pandas, seaborn and statsmodels after very few changes. The

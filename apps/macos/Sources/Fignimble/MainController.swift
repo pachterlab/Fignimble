@@ -333,6 +333,8 @@ final class MainController: NSObject, NSWindowDelegate, NSMenuItemValidation {
             refresh()
         case "rendered":
             Task { await refreshState() }
+        case "recorded":                                // exports/ and fignimble.lock brought up to date (repro.py)
+            recorded(e)
         case "needs_packages":                          // a server's Python lacks the engine's packages (tunnel.py)
             remoteNeeds = e
         default: break
@@ -1703,6 +1705,8 @@ final class MainController: NSObject, NSWindowDelegate, NSMenuItemValidation {
         case #selector(insertTable(_:)): return figure != nil && figure?.isTable == false
         case #selector(insertRemotePanel(_:)): return figure != nil
         case #selector(newTable(_:)): return project != nil
+        case #selector(checkReproducibility(_:)), #selector(tagVersion(_:)), #selector(compareWithVersion(_:)):
+            return project != nil
         case #selector(toggleLabelAlign(_:)): item.state = (figure?.labelStyle["align"] as? Bool ?? true) ? .on : .off; return figure != nil
         case #selector(toggleLabelOrder(_:)): item.state = (figure?.labelStyle["order"] as? String) == "source" ? .on : .off; return figure != nil
         case #selector(labelFormat(_:)):

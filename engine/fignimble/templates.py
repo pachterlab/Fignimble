@@ -142,6 +142,10 @@ def marker_text(version: str | None = None) -> str:
         "# A Fignimble project: publication figures written in Python (https://github.com/pachterlab/Fignimble).\n"
         "# Each top-level .py file is a figure or a table, panels/ holds the code that draws their panels, and\n"
         "# style.py the look they share. Open this folder in Fignimble, or run `fignimble check` in it.\n"
+        "#\n"
+        "# Fignimble keeps exports/ (a PDF of every figure, a CSV of every table and of each panel's values) and\n"
+        "# fignimble.lock (what each was made from) up to date: commit them. Say here how pictures made outside\n"
+        "# Fignimble are made, with [[recipe]] tables: https://pachterlab.github.io/Fignimble/guide/reproducibility/\n"
         "\n"
         "[project]\n"
         f'fignimble = "{version or _version()}"    # the Fignimble version the project was made with\n'
@@ -261,7 +265,13 @@ Fignimble and is not part of the project; don't edit it.)
 
 ## How a project is laid out
 
-- **`fignimble.toml`** marks the project's top folder and records the Fignimble version that made it. Leave it alone.
+- **`fignimble.toml`** marks the project's top folder and records the Fignimble version that made it. Leave its
+  `[project]` table alone. Its `[[recipe]]`, `[env.*]` and `[[input]]` tables say how pictures and tables made
+  outside Fignimble (by scripts, notebooks, or by hand) are made: when you place a picture an analysis made, add a
+  recipe for it (outputs, the command, its inputs, its environment), and run `fignimble check`.
+- **`exports/`** and **`fignimble.lock`** are written by Fignimble (a PDF per figure, a CSV per table and per panel's
+  values, and what each was made from). Never edit them; commit them. `fignimble check` says what is out of date,
+  `fignimble diff` what changed since a version (`fignimble tags`).
 - **Figure files** are the top-level `.py` files that make a `Figure` (`fig1.py`, `fig2.py`, ...). Each places
   elements on its figure, one call per element. Units are **millimeters**, from the figure's **top-left corner, y
   pointing down**.

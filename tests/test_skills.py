@@ -15,7 +15,8 @@ from fignimble import skills  # noqa: E402
 def test_skills_are_well_formed():
     found = skills.available()
     assert {s.name for s in found} >= {"fignimble", "fignimble-new-figure", "fignimble-from-notebook",
-                                       "fignimble-journal", "fignimble-poster", "fignimble-new-table"}
+                                       "fignimble-journal", "fignimble-poster", "fignimble-new-table",
+                                       "fignimble-reproduce"}
     for s in found:
         text = (s.path / "SKILL.md").read_text(encoding="utf-8")
         front = re.match(r"---\n(.*?)\n---\n", text, re.S)

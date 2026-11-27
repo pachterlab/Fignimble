@@ -16,6 +16,16 @@
     fignimble provenance fig1.pdf                  what an export was made from, and whether the project still
                                                    has those files as they were
     fignimble journals                             the journal presets and their column widths, and poster sizes
+
+Reproducibility (fignimble.toml's recipes, exports/ and fignimble.lock; see docs/guide/reproducibility.md):
+    fignimble record [--force]                     write exports/ (a PDF per figure, a CSV per table and per panel's
+                                                   values) and fignimble.lock, as the app does when the project changes
+    fignimble check [--json]                       also: exports/ and recipe outputs against the lock
+    fignimble reproduce [--check] [--budget 1h]    run the recipes again and compare what they make (--check puts the
+                                                   project's files back afterwards); --yes to run without asking
+    fignimble tag NAME [-m MESSAGE]                name this version (a git tag, fignimble/NAME); fignimble tags lists
+    fignimble diff [A] [B] [--json]                compare version A (default: the newest) with B (default: the
+                                                   project now): recipes, values shown, and how figures look
 """
 
 from __future__ import annotations
@@ -68,8 +78,37 @@ def main(argv=None):
     p = sub.add_parser("info", help="describe a figure: elements, labels, warnings")
     p.add_argument("figure")
     p.add_argument("--json", action="store_true")
-    p = sub.add_parser("check", help="preflight check figures")
+    p = sub.add_parser("check", help="preflight check figures, and exports/ and recipe outputs against the lock")
     p.add_argument("figures", nargs="*")
+    p.add_argument("--json", action="store_true", help="the results as JSON")
+    p.add_argument("--fast", action="store_true", help="draw nothing: preflight skipped, exports judged by the files "
+                                                     "they were made from")
+    p = sub.add_parser("record", help="write exports/ and fignimble.lock (as the app does when the project changes)")
+    p.add_argument("--force", action="store_true", help="write every export again, even those that look the same")
+    p.add_argument("--no-data", action="store_true", help="without the values each panel plots")
+    p.add_argument("--json", action="store_true")
+    p = sub.add_parser("reproduce", help="run the recipes in fignimble.toml again and compare what they make")
+    p.add_argument("recipes", nargs="*", help="only these recipes (names, or output file names)")
+    p.add_argument("--check", action="store_true",
+                   help="put the project's files back afterwards (what was made is kept in .fignimble/reproduce/)")
+    p.add_argument("--budget", help="how long it may all take (30min, 2h): recipes that say they take longer than "
+                                    "what is left are skipped")
+    p.add_argument("--no-fetch", action="store_true", help="don't download missing inputs")
+    p.add_argument("--yes", "-y", action="store_true", help="run the commands without asking")
+    p.add_argument("--plan", action="store_true", help="only print what would run")
+    p.add_argument("--json", action="store_true")
+    p = sub.add_parser("tag", help="name this version of the project (a git tag, fignimble/NAME)")
+    p.add_argument("name")
+    p.add_argument("-m", "--message")
+    p.add_argument("--force", action="store_true", help="tag even with uncommitted files or problems the check finds")
+    p.add_argument("--json", action="store_true")
+    p = sub.add_parser("tags", help="the project's versions")
+    p.add_argument("--json", action="store_true")
+    p = sub.add_parser("diff", help="compare two versions of the project, or a version with the project now")
+    p.add_argument("a", nargs="?", help="a version (default: the newest), or any git commit")
+    p.add_argument("b", nargs="?", help="another version (default: the project now)")
+    p.add_argument("--no-record", action="store_true", help="compare exports/ as they are, without writing them first")
+    p.add_argument("--json", action="store_true")
     p = sub.add_parser("export", help="export a figure or a table (a table also as .docx, .xlsx, .csv or .tsv)")
     p.add_argument("figure")
     p.add_argument("output")
@@ -230,21 +269,221 @@ def main(argv=None):
         _describe(res)
         return 0
     if a.cmd == "check":
-        figs = [Path(f) for f in a.figures] or _figures(_here())
-        bad = 0
-        for fig in figs:
-            res = _renderer(fig).render(str(fig.resolve()), sprites=False)
-            if res.get("error"):
+        return _check(a)
+    if a.cmd in ("record", "reproduce", "tag", "tags", "diff"):
+        from . import repro
+        try:
+            return globals()[f"_{a.cmd}"](a)
+        except repro.GitError as exc:
+            if getattr(a, "json", False):
+                print(json.dumps({"ok": False, "error": str(exc)}))
+            else:
+                print(exc, file=sys.stderr)
+            return 1
+    return 2
+
+
+def _project_renderer(project: Path):
+    from .render import Renderer
+    return Renderer(str(project))
+
+
+def _check(a) -> int:
+    """Preflight of each figure, then (in a project with a marker) the reproducibility check."""
+    from . import repro
+    from .templates import MARKER
+    project = _here()
+    figs = [Path(f) for f in a.figures] or ([] if a.fast else _figures(project))
+    bad = 0
+    pre = {}
+    for fig in figs:
+        res = _renderer(fig).render(str(fig.resolve()), sprites=False)
+        if res.get("error"):
+            pre[fig.name] = {"error": res["error"]}
+            if not a.json:
                 print(f"{fig.name}: does not run\n{res['error']}")
-                bad += 1
-                continue
-            ws = res["warnings"]
+            bad += 1
+            continue
+        ws = res["warnings"]
+        pre[fig.name] = {"warnings": ws}
+        if not a.json:
             print(f"{fig.name}: {'ok' if not ws else ''}")
             for w in ws:
                 print(f"  {w['level']}: {w['message']}")
-            bad += sum(1 for w in ws if w["level"] != "info")
-        return 1 if bad else 0
-    return 2
+        bad += sum(1 for w in ws if w["level"] != "info")
+    rep = None
+    if (project / MARKER).is_file() and not a.figures:
+        rep = repro.check(project, None if a.fast else _project_renderer(project))
+        if not rep["ok"]:
+            bad += 1
+        if not a.json:
+            _print_check(rep)
+    if a.json:
+        print(json.dumps({"ok": not bad, "preflight": pre, "reproducibility": rep}, indent=1))
+    return 1 if bad else 0
+
+
+ICON = {"ok": " ", "info": "·", "warning": "?", "error": "!"}
+
+
+def _print_check(rep: dict):
+    print("\nreproducibility (exports/, fignimble.lock, fignimble.toml):")
+    for p in rep["problems"]:
+        print(f"  ! fignimble.toml: {p}")
+    order = {"lock": 0, "export": 1, "input": 2, "output": 3, "recipe": 4}
+    groups: dict = {}                                  # a figure's panel values: one line, unless they disagree
+    for it in rep["items"]:
+        if it["kind"] == "export" and it["path"].startswith("exports/data/"):
+            groups.setdefault(str(Path(it["path"]).parent), []).append(it)
+    for it in sorted(rep["items"], key=lambda it: (order.get(it["kind"], 9), it["path"])):
+        folder = str(Path(it["path"]).parent)
+        if folder in groups:
+            same = len({(g["state"], g["detail"]) for g in groups[folder]}) == 1
+            if same:
+                if it is groups[folder][0] and it["level"] != "ok":
+                    print(f"  {ICON[it['level']]} {it['state']:10} {folder}/ ({len(groups[folder])} files)"
+                          + (f"  {it['detail']}" if it["detail"] else ""))
+                continue
+        print(f"  {ICON[it['level']]} {it['state']:10} {it['path']}" + (f"  {it['detail']}" if it["detail"] else ""))
+    s = rep["summary"]
+    print("  " + ", ".join(f"{n} {k}" for k, n in sorted(s.items())) + ("" if rep["ok"] else "  (problems)"))
+
+
+def _record(a) -> int:
+    from . import repro
+    project = _here()
+    res = repro.record(_project_renderer(project), force=a.force, data=False if a.no_data else None)
+    if a.json:
+        print(json.dumps(res, indent=1))
+        return 1 if res["errors"] else 0
+    for k in res["written"]:
+        print(f"wrote   {k}")
+    for k in res["removed"]:
+        print(f"removed {k}")
+    for f, e in res["errors"].items():
+        print(f"error   {f}: {e}", file=sys.stderr)
+    print(f"{len(res['written'])} written, {len(res['unchanged'])} unchanged, {len(res['removed'])} removed"
+          + ("; fignimble.lock updated" if res["lock"] else "; fignimble.lock unchanged"))
+    return 1 if res["errors"] else 0
+
+
+def _reproduce(a) -> int:
+    from . import repro
+    project = _here()
+    pl = repro.plan(project, a.recipes or None)
+    if pl["problems"]:
+        for p in pl["problems"]:
+            print(f"fignimble.toml: {p}", file=sys.stderr)
+        return 1
+    if not pl["recipes"]:
+        print("fignimble.toml has no recipes" + (" by those names" if a.recipes else ""))
+        return 1
+    if a.plan or not a.yes:
+        if not a.json or a.plan:
+            out = []
+            for r in pl["recipes"]:
+                if r["command"]:
+                    line = f"  {r['recipe']}: {' '.join(r['command'])}  (in {r['cwd']})"
+                else:
+                    line = f"  {r['recipe']}: not run ({r['manual'] or r['where'] or 'no command'})"
+                out.append(line)
+                for f in r["fetch"]:
+                    out.append(f"      downloads {f}")
+            if a.json:
+                print(json.dumps(pl, indent=1))
+            else:
+                print("would run:\n" + "\n".join(out))
+        if a.plan:
+            return 0
+        if not sys.stdin.isatty():
+            print("pass --yes to run these commands", file=sys.stderr)
+            return 2
+        if input("run them? [y/N] ").strip().lower() not in ("y", "yes"):
+            return 1
+    log = (lambda m: print(m, file=sys.stderr)) if a.json else print
+    res = repro.reproduce(project, check_only=a.check, budget=a.budget, only=a.recipes or None,
+                          fetch=not a.no_fetch, log=log)
+    if not a.check and not res.get("problems"):
+        repro.record(_project_renderer(project))
+    if a.json:
+        print(json.dumps(res, indent=1))
+        return 0 if res["ok"] else 1
+    print()
+    for r in res["results"]:
+        why = f": {r['why']}" if r.get("why") else ""
+        print(f"{r['verdict'] + why:22} {r['recipe']}  {r.get('detail', '')}")
+        for o in r.get("outputs", []):
+            if o["verdict"] != "exact":
+                print(f"{'':22}   {o['path']}: {o['verdict']}, {o['detail']}"
+                      + (f" (panels {', '.join(o['panels'])})" if o.get("panels") else ""))
+    print("\n" + ", ".join(f"{n} {k}" for k, n in sorted(res["summary"].items())))
+    if res.get("kept"):
+        print(f"what was made, and pictures of differences: {res['kept']}")
+    if a.check:
+        print("the project's files were put back as they were (--check)")
+    return 0 if res["ok"] else 1
+
+
+def _tag(a) -> int:
+    from . import repro
+    project = _here()
+    res = repro.tag(project, a.name, a.message, a.force, renderer=_project_renderer(project),
+                    log=lambda m: print(m, file=sys.stderr))
+    if a.json:
+        print(json.dumps(res, indent=1))
+        return 0
+    if res["committed"]:
+        print(f"committed exports/ and fignimble.lock ({res['committed'][:10]})")
+    print(f"tagged {res['commit'][:10]} as {res['tag']}")
+    for b in res["problems"]:
+        print(f"  despite: {b['path']}: {b['detail']}")
+    if res["uncommitted"]:
+        print("  despite uncommitted files: " + ", ".join(res["uncommitted"][:8]))
+    print(f"share it with: {res['push']}")
+    return 0
+
+
+def _tags(a) -> int:
+    from . import repro
+    ts = repro.tags(_here())
+    if a.json:
+        print(json.dumps(ts, indent=1))
+        return 0
+    if not ts:
+        print("no versions yet: fignimble tag NAME makes one")
+    for t in ts:
+        print(f"{t['name']:28} {t['date'][:16].replace('T', ' ')}  {t['commit'][:10]}  {t['message']}")
+    return 0
+
+
+def _diff(a) -> int:
+    from . import repro
+    project = _here()
+    res = repro.diff(project, a.a, a.b, renderer=None if (a.no_record or a.b) else _project_renderer(project))
+    if a.json:
+        print(json.dumps(res, indent=1))
+        return 0 if res["same"] else 1
+    print(f"{res['a']}  ->  {res['b']}")
+    if res["how"]:
+        print("\nhow things are made:")
+        for h in res["how"]:
+            print(f"  {h['change']:8} {h['what']} {h['name']}" + (f"  ({h['detail']})" if h.get("detail") else ""))
+    for title, part in (("what is shown (tables, panels' values):", res["shown"]), ("how figures look:", res["looks"])):
+        if not part:
+            continue
+        print("\n" + title)
+        for it in part:
+            extra = []
+            if it.get("panels"):
+                extra.append(f"panel{'s' if len(it['panels']) > 1 else ''} {', '.join(it['panels'])}")
+            if it.get("because") and it["verdict"] not in ("exact",):
+                extra.append("made from changed " + ", ".join(it["because"][:4]))
+            if it.get("highlight"):
+                extra.append(f"see {it['highlight']}")
+            print(f"  {it['verdict']:17} {it['path']}  {it['detail']}" + (f"; {'; '.join(extra)}" if extra else ""))
+    print("\n" + ("the same" if res["same"] else "they differ") + ": "
+          + ", ".join(f"{n} {k}" for k, n in sorted(res["summary"].items())))
+    return 0 if res["same"] else 1
 
 
 def _provenance(file: str, project: Path) -> int:
