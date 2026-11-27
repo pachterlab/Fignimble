@@ -1,0 +1,702 @@
+{
+ "exports": {
+  "exports/data/ed5/a.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "a",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "978d9b9cd580da756393cdfe862095c5dbd2f0ff81c7772c3cd5ae7cd06540a4",
+   "tables": 3
+  },
+  "exports/data/ed5/aa.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "aa",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "00bfe657a64e7e0839d07e5282e79cf42bf611ad3c63f36412174ca9e843bc3e",
+   "tables": 24
+  },
+  "exports/data/ed5/ab.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ab",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "5542acdad13792ccd4c093cb988591543352d3436aeeb5ca49fc8c6ce606ea32",
+   "tables": 4
+  },
+  "exports/data/ed5/ac.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ac",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "debadfab4fe691fc3ff1388b87b2aa82a64efd63bc04e48dca8562971d3c0450",
+   "tables": 1
+  },
+  "exports/data/ed5/ad.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ad",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "3c561aefa600906cce8f39e12ca24e137799ea1f39db1f70d56a73c3566df098",
+   "tables": 2
+  },
+  "exports/data/ed5/ae.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ae",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "dadb6b9f979b0f9328a79d5a5cab20a7ad12144dc62173a471a02eecb3f7bb19",
+   "tables": 24
+  },
+  "exports/data/ed5/af.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "af",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "c9ee1f29a60f23a42fc7c6a0054eee9ed71b1489db249a22215ef9c39d7dea12",
+   "tables": 24
+  },
+  "exports/data/ed5/ag.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ag",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "7822e25e4171959a403dacce5e97f6f89d21c175c67c35fceee084886d28dcd5",
+   "tables": 24
+  },
+  "exports/data/ed5/ah.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ah",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "714893d5c2a1b795368750ef5a09323567b24b7d4a6d87d309b342deca0b8d8d",
+   "tables": 24
+  },
+  "exports/data/ed5/ai.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ai",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "9e38cfef502c286ea88e34fefad5f94586d32188b2bc19081ea2b189165b16a1",
+   "tables": 24
+  },
+  "exports/data/ed5/aj.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "aj",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "28ad6c761f8ae03f317bd713a2f6deb2c426ff5a5be9114fe99b9fae93500139",
+   "tables": 24
+  },
+  "exports/data/ed5/ak.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "ak",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "28f224e823aefb58a13df87cf42c5a7f51f42459c14cd5056a58db0831abcadb",
+   "tables": 8
+  },
+  "exports/data/ed5/b.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "b",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "e508f98f22a142acd8144d447223a91572370dce6707fefe930655bee4d75018",
+   "tables": 37
+  },
+  "exports/data/ed5/c.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "c",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "2ba1204288875b13ef6cd1bf6264eb6fef3af78dec03c0649dc0db4320e98ced",
+   "tables": 38
+  },
+  "exports/data/ed5/d.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "d",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "b62f06c8f818936226ec50c4a367d82c2fdca1fc1ff5581ebb20c32f3c86b83a",
+   "tables": 8
+  },
+  "exports/data/ed5/e.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "e",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "eef32d442d9f6febbe9fff0b91707f46eac13c3c4e151b749bc5e6466be6fb4f",
+   "tables": 1
+  },
+  "exports/data/ed5/f.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "f",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "e731c49fa37c7dd0dcd60cc957924149e03b23f5c6c3922a17398d8f50cdfed1",
+   "tables": 24
+  },
+  "exports/data/ed5/g.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "g",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "44f5eb1169aa28ab434529c7058a6ce1e1ad997534cde59e4a677534681951e8",
+   "tables": 24
+  },
+  "exports/data/ed5/h.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "h",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "33cc994035a2ba17e88512b4e15a1cccfc41f7dbc7b529eb8acb391db23e57e2",
+   "tables": 24
+  },
+  "exports/data/ed5/i.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "i",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "1419cab61bd022eef6a352dd8f6102084e295b27c932d5bef53a5237786330f4",
+   "tables": 8
+  },
+  "exports/data/ed5/k.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "k",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "25f13817d1478abcb188fa776cd004053a9cf785f5a4f80207a5502e2288c1fa",
+   "tables": 13
+  },
+  "exports/data/ed5/l.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "l",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "77bccf12f53dce5fd12a1a82c012de78e55aab83ced0a59e3d964ce4536f2458",
+   "tables": 12
+  },
+  "exports/data/ed5/m.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "m",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "b4232dc8437ec3e783283d1f80ee9bef88200cb297d2ee5a03d9eac2101a5e52",
+   "tables": 13
+  },
+  "exports/data/ed5/n.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "n",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "66c5b6f6d3b5abb03cfb2587f10b7cafda8b5e6d431d4f6e8f9ad1b7a81fe680",
+   "tables": 2
+  },
+  "exports/data/ed5/o.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "o",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "a158f823b2f212cd00bb8f2382d69ea687dd4e199fa98ff6a9ff39b4daf88a57",
+   "tables": 1
+  },
+  "exports/data/ed5/p.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "p",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "45322b51531c38c5b44cd795582f18ab01cbe744ecd86d42dd0d51d2655bb55d",
+   "tables": 4
+  },
+  "exports/data/ed5/r.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "r",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "cb677dbd70ce20e2befd95054a0ccbfebdfdc4bc2ecca025e6db48f2e68f40c8",
+   "tables": 13
+  },
+  "exports/data/ed5/s.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "s",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "c2a333e0c18e0694922a0552a042036b7d1bf37b5361ba2e869e08ec6ba7d455",
+   "tables": 13
+  },
+  "exports/data/ed5/t.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "t",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "e5f8e83c307d4f9a64d7617a52c24ec9bba3fceaeccd96ae17f6c1e8a3668be4",
+   "tables": 12
+  },
+  "exports/data/ed5/u.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "u",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "8d05243d3463b72f0d6ba84bbcc308dca184a7ba86245acb2157c81cff18ff77",
+   "tables": 2
+  },
+  "exports/data/ed5/v.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "v",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "42e0ad9baf8acab1124114ff636dd14b77790c801b4a741273f92eaabe87d663",
+   "tables": 1
+  },
+  "exports/data/ed5/w.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "w",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "0c5cc21930c6255d4d3f07effbb3afc98c645c7a400c78fba9e24d1b4d19177d",
+   "tables": 4
+  },
+  "exports/data/ed5/y.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "y",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "c314d204bb7a40e94f7387b4922731ad4006ec74d2a6e04e4432208315179de7",
+   "tables": 24
+  },
+  "exports/data/ed5/z.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "figure": "ed5.py",
+   "how": "read from what it draws",
+   "kind": "panel-data",
+   "made_from": "f93d6d77f7bec7e1",
+   "panel": "z",
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "0d39a93164491f3371f3b2dbad34260bbdeaa4ad97ec65be08db940a0333b5f9",
+   "tables": 1
+  },
+  "exports/ed5.pdf": {
+   "at": "2026-11-27T22:26:23Z",
+   "figure": "ed5.py",
+   "kind": "figure",
+   "panels": {
+    "a": [
+     2,
+     1,
+     44,
+     33
+    ],
+    "aa": [
+     84,
+     138,
+     31,
+     31
+    ],
+    "ab": [
+     116,
+     138,
+     32,
+     31
+    ],
+    "ac": [
+     149,
+     138,
+     32,
+     31
+    ],
+    "ad": [
+     2,
+     171,
+     28,
+     29
+    ],
+    "ae": [
+     31,
+     171,
+     30,
+     29
+    ],
+    "af": [
+     61,
+     171,
+     30,
+     29
+    ],
+    "ag": [
+     91,
+     171,
+     30,
+     29
+    ],
+    "ah": [
+     121,
+     171,
+     30,
+     29
+    ],
+    "ai": [
+     151,
+     171,
+     30,
+     29
+    ],
+    "aj": [
+     2,
+     202,
+     29,
+     25
+    ],
+    "ak": [
+     32,
+     202,
+     34,
+     25
+    ],
+    "b": [
+     47,
+     1,
+     42,
+     33
+    ],
+    "c": [
+     90,
+     1,
+     44,
+     33
+    ],
+    "d": [
+     135,
+     1,
+     46,
+     33
+    ],
+    "e": [
+     2,
+     37,
+     36,
+     32
+    ],
+    "f": [
+     39,
+     37,
+     34,
+     32
+    ],
+    "g": [
+     74,
+     37,
+     34,
+     32
+    ],
+    "h": [
+     109,
+     37,
+     34,
+     32
+    ],
+    "i": [
+     144,
+     37,
+     37,
+     32
+    ],
+    "j": [
+     3,
+     75,
+     11.5,
+     26
+    ],
+    "k": [
+     36,
+     73,
+     24,
+     29
+    ],
+    "l": [
+     60,
+     73,
+     24,
+     29
+    ],
+    "m": [
+     84,
+     73,
+     24,
+     29
+    ],
+    "n": [
+     108,
+     73,
+     25,
+     29
+    ],
+    "o": [
+     133,
+     73,
+     20,
+     29
+    ],
+    "p": [
+     153,
+     73,
+     29,
+     29
+    ],
+    "q": [
+     3,
+     108,
+     11.5,
+     26
+    ],
+    "r": [
+     36,
+     106,
+     24,
+     29
+    ],
+    "s": [
+     60,
+     106,
+     24,
+     29
+    ],
+    "t": [
+     84,
+     106,
+     24,
+     29
+    ],
+    "u": [
+     108,
+     106,
+     25,
+     29
+    ],
+    "v": [
+     133,
+     106,
+     20,
+     29
+    ],
+    "w": [
+     153,
+     106,
+     29,
+     29
+    ],
+    "x": [
+     6,
+     140,
+     15,
+     27
+    ],
+    "y": [
+     24,
+     138,
+     29,
+     31
+    ],
+    "z": [
+     54,
+     138,
+     29,
+     31
+    ]
+   },
+   "picture": "354383ec851166748cf6e3ce39d4bd4e",
+   "sha256": "f07cf30790a6ae0f81357e89f149c41a4830c7c130df34442430823c2bcf9646",
+   "size": [
+    183,
+    228
+   ],
+   "sources": {
+    "ed5.py": "09fbaf8259c35d9519a7cdac8e2eb1ee8c35760e277d90b519aab5d4f7fbadf1",
+    "images/mouse.svg": "88ebe04321f50601f54ee0f816c7b3a2633dcad417bf58df1d810412dc2b6c7a",
+    "images/pup.svg": "f271cafe7d288cf5241e0c63be8e6fb252bc0a3b68a638c5ec6478db49fd5290",
+    "panels/estrous.py": "bc421706f0231b769deb3eb6f5263da56f1c63d6317aaea6c7647cb27c5d4467",
+    "panels/pharmacology.py": "0d9c796ff49263f3111588360a0b98d9f31451b609d0f8a8e68d604db8926d6d",
+    "panels/resampled.py": "f65066bfcde0c941c28134996fc8b98b989aad2ff666240c93a1e8adeb8eac4e",
+    "style.py": "7b5c5df07f9650cc538c15321a8caf0e85c7defc73db01e5d2b145e8936f1667"
+   }
+  }
+ },
+ "fignimble": "0.5.2",
+ "lock": 1,
+ "outputs": {
+  "data/estrous_data.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "how": "manual",
+   "inputs": {},
+   "recipe": "authors-data",
+   "recipe_hash": "b3b72c71c0fa6801",
+   "sha256": "157bcff90dd5e76cc6371c67830c0154a999006288c354b14a4fc61f196dbfa3"
+  },
+  "data/negative_parental_switch_summary.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "how": "manual",
+   "inputs": {},
+   "recipe": "authors-data",
+   "recipe_hash": "b3b72c71c0fa6801",
+   "sha256": "dcb50b725656126516e0c51ec66cc17d7936cb562ac6dfb8ea1bfa85245c7074"
+  },
+  "data/ramps_all.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "how": "manual",
+   "inputs": {},
+   "recipe": "authors-data",
+   "recipe_hash": "b3b72c71c0fa6801",
+   "sha256": "2703fe60433a29cb2a05d7ca67bb7694577a35d0432dedfe6787c327982b83aa"
+  },
+  "data/sampled_ephys_data.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "how": "manual",
+   "inputs": {},
+   "recipe": "authors-data",
+   "recipe_hash": "b3b72c71c0fa6801",
+   "sha256": "671ce61ba2fd8dae3d2d7ed669c89ddc78faa2980e9f5e83256e45c85749f22a"
+  },
+  "data/sampled_ephys_data_after_adding_BJ.csv": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "how": "manual",
+   "inputs": {},
+   "recipe": "authors-data",
+   "recipe_hash": "b3b72c71c0fa6801",
+   "sha256": "c868c22cd4446c7265d5f2c1d3b5a2e2f734b90eabc059f74b1b1f321a68d9e9"
+  },
+  "images/mouse.svg": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "figures": [
+    "ed5.py"
+   ],
+   "how": "manual",
+   "inputs": {},
+   "recipe": "icons",
+   "recipe_hash": "984dcd8c5c29614e",
+   "sha256": "88ebe04321f50601f54ee0f816c7b3a2633dcad417bf58df1d810412dc2b6c7a"
+  },
+  "images/pup.svg": {
+   "at": "2026-11-27T22:26:26Z",
+   "commit": "a7fb5e352b3da31bada2bd610242a886f17a67ed",
+   "data": {},
+   "figures": [
+    "ed5.py"
+   ],
+   "how": "manual",
+   "inputs": {},
+   "recipe": "icons",
+   "recipe_hash": "984dcd8c5c29614e",
+   "sha256": "f271cafe7d288cf5241e0c63be8e6fb252bc0a3b68a638c5ec6478db49fd5290"
+  }
+ }
+}

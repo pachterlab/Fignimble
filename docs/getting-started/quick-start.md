@@ -12,6 +12,9 @@ makes the folder and opens it:
 - `style.py`: the look every figure of the project shares (font, text size, line widths, panel labels, colors).
 - `fig1.py`: the first figure, empty, at the journal's double-column width.
 
+Once the project has figures, Fignimble also keeps `exports/` (a PDF of each figure, a CSV of each table) and
+`fignimble.lock` up to date: commit them with the rest. See [Reproducibility](../guide/reproducibility.md).
+
 From a terminal, `fignimble new` does the same (in a folder called `fignimble`, or
 `fignimble new FOLDER`). A project is just a folder. Put it under git, open it in another editor, or send it to a
 colleague. New Project needs a new or empty folder; to make figures in a folder you already have, see

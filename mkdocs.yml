@@ -98,6 +98,7 @@ nav:
       - Labels, style and journals: guide/style.md
       - Color and dark versions: guide/colour.md
       - Preflight and export: guide/export.md
+      - Reproducibility and versions: guide/reproducibility.md
       - Posters, and figures inside figures: guide/posters.md
       - Projects on an SSH server: guide/remote.md
   - AI agents and the terminal: ai/agents.md

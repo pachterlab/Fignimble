@@ -79,6 +79,9 @@ The exit status is 0 when everything matches, so a script can check that a figur
 project's current code and data. Data files a panel reads by itself aren't listed. Keep them under git, and the
 commit covers them.
 
+For the project as a whole (every figure, table and picture, how pictures made elsewhere were made, and versions to
+compare), see [Reproducibility](reproducibility.md).
+
 ## The clipboard
 
 **Edit ▸ Copy Figure as Picture** (<kbd>⇧</kbd><kbd>⌘</kbd><kbd>C</kbd>, or <kbd>⌘</kbd><kbd>C</kbd> with nothing

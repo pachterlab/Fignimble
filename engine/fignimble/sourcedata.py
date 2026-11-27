@@ -426,9 +426,10 @@ def _panel_sheet(name: str, where: str, blocks: list, notes: list, how: str) -> 
     return (name, rows, styles)
 
 
-def export(renderer, file: str, path: str) -> dict:
-    """Write the source data of figure `file` to `path` (.xlsx): {path, sheets, panels: [{panel, sheet, how, blocks}]}."""
-    from .render import provenance_line
+def collect(renderer, file: str) -> list[dict]:
+    """The values each panel of figure `file` plots, panels in letter order, then those of figures placed whole:
+    [{key, panel, sheet, where, blocks, notes, how}]. key: a short name for files (the letter; "b-c" for panel c of
+    a figure placed as b)."""
     fig = renderer.run_figure(file)
     fpath = renderer.resolve(file)
     if isinstance(fig, api.Table):
@@ -437,20 +438,19 @@ def export(renderer, file: str, path: str) -> dict:
     renderer._stack, renderer.used, renderer.nested = [fpath], {fpath}, {}
     pieces, infos, labels = renderer.pieces(fig)
     letters = {l["panel"]: l["text"] for l in labels}
-    by_oid = {i["oid"]: i for i in infos}
     jobs = sorted(renderer.jobs, key=lambda j: (letters.get(j["oid"]) is None, letters.get(j["oid"]) or "", j["oid"]))
     rc = renderer.rc
-    sheets, report = [], []
+    out = []
     for j in jobs:
         letter = letters.get(j["oid"])
-        name = f"Panel {letter}" if letter else f"Panel {j['oid']}"
         src = j["props"]["source"]
         where = src.__name__ if callable(src) else (src + ("" if j["props"]["function"] == "draw"
                                                            else f", {j['props']['function']}()"))
         renderer.rc = rc
         blocks, notes, how = panel_blocks(renderer, j)
-        sheets.append(_panel_sheet(name, where, blocks, notes, how))
-        report.append({"panel": letter or j["oid"], "sheet": name, "how": how, "blocks": len(blocks)})
+        out.append({"key": letter or f"panel-{j['oid']}", "panel": letter or j["oid"],
+                    "sheet": f"Panel {letter}" if letter else f"Panel {j['oid']}", "where": where,
+                    "blocks": blocks, "notes": notes, "how": how})
     for oid, (fname, sjobs, src_rc, slabels) in renderer.nested.items():
         outer = letters.get(oid)
         sl = {l["panel"]: l["text"] for l in slabels}
@@ -459,10 +459,23 @@ def export(renderer, file: str, path: str) -> dict:
             name = f"{fname} {inner}" if not outer else f"Panel {outer} ({inner})"
             renderer.rc = src_rc
             blocks, notes, how = panel_blocks(renderer, j)
-            sheets.append(_panel_sheet(name, f"panel {inner} of {fname}, placed whole", blocks, notes, how))
-            report.append({"panel": name, "sheet": name, "how": how, "blocks": len(blocks)})
+            out.append({"key": f"{outer}-{inner}" if outer else f"{Path(fname).stem}-{inner}", "panel": name,
+                        "sheet": name, "where": f"panel {inner} of {fname}, placed whole", "blocks": blocks,
+                        "notes": notes, "how": how})
     renderer.rc = rc
-    pictures = [i for i in infos if i["kind"] in ("image", "inset") and i["oid"] in by_oid]
+    renderer._collected = (fig, infos)
+    return out
+
+
+def export(renderer, file: str, path: str) -> dict:
+    """Write the source data of figure `file` to `path` (.xlsx): {path, sheets, panels: [{panel, sheet, how, blocks}]}."""
+    from .render import provenance_line
+    panels = collect(renderer, file)
+    fig, infos = renderer._collected
+    fpath = renderer.resolve(file)
+    sheets = [_panel_sheet(p["sheet"], p["where"], p["blocks"], p["notes"], p["how"]) for p in panels]
+    report = [{"panel": p["panel"], "sheet": p["sheet"], "how": p["how"], "blocks": len(p["blocks"])} for p in panels]
+    pictures = [i for i in infos if i["kind"] in ("image", "inset")]
     about = [["Source data"], [f"Figure: {Path(fpath).name}"]]
     try:
         about.append([provenance_line(renderer.provenance(file))])

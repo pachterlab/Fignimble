@@ -1,0 +1,22 @@
+# bars
+x,Silent neurons (%)
+Pre,26.984126984126984
+Agg$^{+}$,45.0
+Agg$^{-}$,18.181818181818183
+ZD,88.88888888888889
+NPY,63.63636363636363
+KD-Y,26.31578947368421
+
+# line “line 1”
+x,Silent neurons (%)
+Pre,105.0
+Pre,108.0
+ZD,108.0
+ZD,105.0
+
+# line “line 2”
+x,Silent neurons (%)
+Pre,119.0
+Pre,122.0
+NPY,122.0
+NPY,119.0

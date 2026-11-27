@@ -4,3 +4,20 @@
 
 [project]
 fignimble = "0.4.0"    # the Fignimble version the project was made with
+
+# How what this project shows was made. Every panel except j, q and x is drawn by Fignimble from panels/*.py
+# (no recipe needed: the code is the recipe), in the Python environment below. See
+# https://pachterlab.github.io/Fignimble/guide/reproducibility/
+
+[env.panels]
+python = "requirements.txt"      # what the panels import besides matplotlib and numpy (Fignimble offers to install it)
+
+[[recipe]]
+name = "authors-data"
+outputs = ["data/*.csv"]
+manual = "copied from NPS_ephys in FrancisCrickInstitute/negative_parental_switch (CC BY 4.0), the authors' data"
+
+[[recipe]]
+name = "icons"
+outputs = ["images/*.svg"]
+manual = "SciDraw icons from BioCartoon: C57 MOUSE by Long Li (SD016325), Rat pup P1 by Antonis Asiminas (SD016414), CC BY 4.0"

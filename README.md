@@ -184,6 +184,12 @@ fingerprint of each file it was made from; `fignimble provenance poster.pdf` che
 - **Source data.** File ▸ Export Source Data… (`fignimble source-data fig1.py`) writes the values plotted in each
   panel to a spreadsheet, one sheet per panel, as journals ask: lines, points, bars with their error bars, heatmaps,
   read back from what the panel drew, or from a `source_data()` function next to the panel's `draw()`.
+- **Reproducible.** A project keeps `exports/` (a PDF of every figure, a CSV of every table and of the values each
+  panel plots) and `fignimble.lock` (what each was made from) up to date as it changes. Recipes in `fignimble.toml`
+  say how pictures made by scripts and notebooks elsewhere are made, and in what environment (a container,
+  preferably). `fignimble check` says what is out of date, `fignimble reproduce` runs the recipes again and compares
+  what they make, and `fignimble tag submitted` / `fignimble diff` compare versions. See
+  [Reproducibility](https://pachterlab.github.io/Fignimble/guide/reproducibility/).
 - **71 journals**, computational biology's especially: the Nature Portfolio (Nature Methods, Nature
   Communications, Scientific Reports…), Cell Press (Cell Systems, Cell Genomics, Patterns…), PLOS (Computational
   Biology, ONE…), Oxford (Bioinformatics, NAR, Briefings in Bioinformatics, GigaScience…), BMC (Genome Biology, BMC
@@ -292,6 +298,7 @@ Then ask:
 | `/fignimble-from-notebook` | turn a notebook's or scripts' plots into panel functions and assemble them into a figure | `/fignimble-from-notebook Turn the plots in analysis.ipynb into figure 2.` |
 | `/fignimble-journal` | restyle figures for a journal, fix what `fignimble check` reports, and export files that meet its rules | `/fignimble-journal Restyle my figures for Cell and export them for submission.` |
 | `/fignimble-poster` | make a poster that places the paper's figures whole, with text from Markdown and a QR code; export it for printing | `/fignimble-poster Make an A0 poster from fig1 and fig2 with the abstract in intro.md.` |
+| `/fignimble-reproduce` | check that a project's figures reproduce (check, reproduce, diff), look into what doesn't, write REPRODUCIBILITY.md, and add missing recipes | `/fignimble-reproduce Check that the figures in this repository reproduce, within an hour.` |
 
 ## Install
 
@@ -332,6 +339,7 @@ engine/fignimble/   api.py       the figure language (Figure, Labels, Style)
                  core.py      session: render worker, edit operations, undo, watching the project
                  rpc.py       JSON lines over stdio for the app (docs/protocol.md)
                  cli.py       the fignimble command
+                 repro.py     reproducibility: recipes, exports/ and fignimble.lock, reproduce, tag and diff
                  skills.py    fignimble install-skills
 skills/          agent skills (Claude Code and Codex plugins: .claude-plugin/, .codex-plugin/)
 apps/macos/      the macOS app (Swift, AppKit, SwiftTerm)

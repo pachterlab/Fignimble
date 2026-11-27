@@ -30,6 +30,11 @@ Coordinates are millimeters from the figure's top-left corner, y down.
 | `poster_templates` | | `{templates: [{key, poster, landscape, name, use, size: [w, h]}]}`: the templates New Figure offers, in order, sized as hung |
 | `export_table` | `figure`, `oid`, `path`, `title?` | `{ok, path}`: a table element as a Word file |
 | `export_source_data` | `figure`, `path` | `{ok, path, sheets, panels: [{panel, sheet, how, blocks}]}`: the values plotted in each panel, as an .xlsx |
+| `record` | `force?` | `{written, removed, unchanged, errors, lock}`: `exports/` and `fignimble.lock` brought up to date now (the engine also does it by itself a few seconds after the project stops changing) |
+| `repro_check` | | `{items: [{path, kind, state, detail, level}], problems, summary, ok}`: [the check](guide/reproducibility.md#fignimble-check), each figure drawn again |
+| `tags` | | `{ok, tags: [{name, ref, commit, date, message}], error?}`: the project's versions, newest first |
+| `tag` | `name`, `message?`, `force?` | `{ok, tag, commit, committed, ...}` or `{ok: false, error}` |
+| `diff` | `a?` (default: the newest version), `b?` (default: the project now) | `{ok, a, b, how, shown, looks, summary, same, differences}` or `{ok: false, error}` |
 | `remote_hosts` | | `{hosts}` from `~/.ssh/config` |
 | `remote_list` | `host`, `path?` | `{ok, host, path, entries: [{name, dir}]}`: folders and .py files there |
 | `import_remote` | `figure`, `host`, `path`, `x`, `y` | as `import_file`, plus `file`: the panel code copied into `panels/` |
@@ -103,4 +108,4 @@ figure's background reproduces the figure.
 ## Events
 
 `changed` (a file of the project changed outside an edit: render again), `rendered` (`figure`: a background render,
-for its thumbnail).
+for its thumbnail), `recorded` (`written`, `removed`, `errors`: `exports/` and the lock were brought up to date).

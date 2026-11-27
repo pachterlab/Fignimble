@@ -50,6 +50,18 @@ RASTER = (".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".gif", ".webp")
 CROP_SLUG = 10.0                   # mm outside the bleed for crop marks
 VECTOR = (".pdf", ".svg")
 SKIP_DIRS = {".fignimble", ".git", "__pycache__", ".venv", "venv", "node_modules", ".ipynb_checkpoints"}
+# what Fignimble writes at a project's top for reproducibility (see repro.py): never an input to a figure
+WRITTEN_DIRS, WRITTEN_FILES = {"exports"}, {"fignimble.lock"}
+
+
+def project_walk(project):
+    """os.walk over a project's files that figures may read: without caches, environments, and what Fignimble
+    writes itself (exports/, fignimble.lock)."""
+    project = str(project)
+    for dirpath, dirs, files in os.walk(project):
+        top = dirpath == project
+        dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".") and not (top and d in WRITTEN_DIRS)]
+        yield dirpath, dirs, [f for f in files if not (top and f in WRITTEN_FILES)]
 
 
 CACHE_VERSION = 10                 # bump when a change to drawing makes cached pieces wrong
@@ -287,8 +299,7 @@ class Renderer:
         """What a panel can read besides its own code: every other file of the project except figure files, and the
         files outside the project that figures read (code a panel imports from there)."""
         items = []
-        for dirpath, dirs, files in os.walk(self.project):
-            dirs[:] = [d for d in dirs if d not in SKIP_DIRS and not d.startswith(".")]
+        for dirpath, dirs, files in project_walk(self.project):
             for f in files:
                 p = Path(dirpath) / f
                 if f.endswith(".py"):

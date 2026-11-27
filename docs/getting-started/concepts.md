@@ -18,8 +18,16 @@ mypaper/fignimble/
 ├── images/             pictures: micrographs, gels, schematics, BioCartoon icons
 ├── data/               whatever your panels read
 ├── requirements.txt    packages the panels need (optional)
+├── exports/            a PDF of every figure, a CSV of every table and of each panel's values (written by Fignimble)
+├── fignimble.lock      what each export was made from (written by Fignimble)
 └── .fignimble/         renders and caches (safe to delete; git-ignored)
 ```
+
+**`exports/`** and **`fignimble.lock`** appear by themselves: a few seconds after the project changes, Fignimble
+writes a PDF of each figure that looks different, a CSV of each table and of the values each panel plots, and a lock
+of what each was made from. Commit them, and don't edit them. They let anyone check that the figures still match the
+code (`fignimble check`), and compare versions (`fignimble tag`, `fignimble diff`). `fignimble.toml` can also say
+how pictures made by scripts elsewhere are made. See [Reproducibility](../guide/reproducibility.md).
 
 **`fignimble.toml`** says the folder is a Fignimble project and which version of Fignimble made it. Fignimble and
 the `fignimble` command find the project from any folder inside it by looking for it, as git looks for `.git`:

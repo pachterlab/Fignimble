@@ -18,6 +18,9 @@ engine/fignimble/   api.py        the figure language (Figure, Style, Labels, Pa
                     core.py       the session: render worker, edit operations, undo, watching the project
                     rpc.py        JSON lines over stdio for the app (see the engine protocol)
                     requirements.py  packages Fignimble and a project need, and installing them
+                    repro.py      reproducibility: fignimble.toml's recipes, exports/ and fignimble.lock, check,
+                                  reproduce, and versions as git tags (tag, diff)
+                    sourcedata.py the values each panel plots, read back from what it drew
                     cli.py        the fignimble command
 apps/macos/         the macOS app (Swift, AppKit, SwiftTerm)
 examples/demo/      a project to try
@@ -35,6 +38,13 @@ A figure placed in another (`fig.figure`) is run in the same worker with its own
 figure, and its page is placed as one piece; a figure that places itself, directly or through others, is reported
 instead. Export writes a provenance record into the file (PDF metadata, a PNG text chunk, a TIFF description or SVG
 metadata): the Fignimble version, the git commit, and a hash of each file the render read.
+
+A second worker process keeps `exports/` and `fignimble.lock` up to date (`repro.record`): the session starts it
+a few seconds after the project stops changing, so the editor's renders never wait for it. It draws every figure,
+writes a figure's PDF only when the figure looks different (pages compared as pictures, not bytes, which carry
+dates), and writes its panels' values again when anything the figure was made from changed. Both are left out of the
+fingerprints that decide what to draw again, so writing them starts no render. See
+[Reproducibility](../guide/reproducibility.md).
 
 ## Editing
 
